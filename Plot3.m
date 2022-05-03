@@ -2,7 +2,7 @@
 function [] = Plot3
 
     outdir      = '../out/';  
-    runID       = '0D_assml_sat_Krafla_4H20_eta150';
+    runID       = '0D_anh_Tau_T4<<Tau_a8_rhy070_wall_4H2O';
     
     path        = strcat(outdir,runID);
     addpath(path);
