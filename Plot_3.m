@@ -1,8 +1,8 @@
 
-function [] = Plot2
+function [] = Plot3
 
     outdir      = '../out/';  
-    runID       = '0D_anh_Tau_T4<<Tau_a8_interm060_wall_4H2O';
+    runID       = '0D_anh_Tau_T4<<Tau_a8_rhy070_wall_4H2O';
     
     path        = strcat(outdir,runID);
     addpath(path);
@@ -15,7 +15,7 @@ function [] = Plot2
      
   %  Num = sscanf(cat(2, :), '%d');
     parfile = [path ,'/', runID, '_par.mat']; % parameter file
-    lastfile   = [path, '/', runID, '_cont.mat']; %change to last matfile
+    lastfile   = [path, '/', runID, '_cont.mat']; %change to lat matfile
 
     if exist(lastfile,'file'); load(lastfile); end
     if exist(parfile,'file'); load(parfile); end
@@ -27,7 +27,7 @@ function [] = Plot2
     Nz = length(Z);
 
     %Run output file to plot figures
-    run('output_plots.m');
+    %run('output_plots.m');
 %     legend(runID);
-%     hold  on
+%     hold on 
 end
