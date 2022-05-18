@@ -1,12 +1,12 @@
 
 function [outdir,RunID,path,parfile,contfile] = Plot_1()
 
-    outdir      = '../out/0D_simulations/';  
-    RunID       = '0D_anh_Tau_T4<<Tau_a8_bas049_wall_4H2O';
+    outdir      = '../out/';  
+    RunID       = '1D_anh_bas_TT4_ta8_050_wall_4H2O';
     
     path        = strcat(outdir,RunID);
     addpath(path);
-%     addpath('../src/');
+    addpath('../src/');
 
     %Files we need to plot 
     parfile = [path ,'/', RunID, '_par.mat']; % parameter file

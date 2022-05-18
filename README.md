@@ -1,3 +1,3 @@
 # ptroutine
 
-Plotting multiple output.mat files into one figure for best practice 
+Plotting routine for multiple .mat files to visualise differences in parameters from the nakhla code

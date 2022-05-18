@@ -1,33 +1,55 @@
 %% Main plotting routine %%
-% After replotting add etact in output_plots again in output_plot or copy new file and
-% delete clf;
+% This routine enables you to plot multiple simulations together to see the
+% differences. It uses the output_plots.m file to plot the different 0D/1D
+% plots. IF desired you can also change the line color to change with every
+% run rather than the style --> change to LC{i}
+
 close all; clear all; clc;
 
-name = 'Name your Plots';
+%Give the plot a name to specify what parameters you plot together
+name = '1D_anh_TT4_Ta8'; 
 
-n = 2; %change to number of desired plots
-plotLabels = cell(n,1);
-
-
+n = 3; %change to number of desired plots
 
 for i = 1: n
 
-    %run(['Plot' num2str(i) '()']);
-    [outdir,runID,path,parfile,contfile] = Plot_1();
-    output_plots(i,parfile, contfile);
-    
-    hold on
-end
+    switch i
+        case  1
+            [outdir,runID,path,parfile,contfile] = Plot_1(); 
+            name_1 = 'TauT4 Ta8 basaltic wall';
+        case  2
+            [outdir,runID,path,parfile,contfile] = Plot_2(); 
+            name_2 = 'TauT4 Ta8 interm wall';
+        case  3
+            [outdir,runID,path,parfile,contfile] = Plot_3();
+            name_3 = 'TauT4 Ta8 rhyolitic wall';
 
-plotLabels{1} = '0D_anh_Tau_T4<<Tau_a8_bas049_wall_4H2O';
-plotLabels{2} = '0D_anh_Tau_T4<<Tau_a8_interm060_wall_4H2O';
-plotLabels{3} = '0D_anh_Tau_T4<<Tau_a8_rhy070_wall_4H2O';
-legend(plotLabels, 'Location', 'east')
+    end
+
+    %for 0D fh1-3 and for 1D fh1-4
+    [Nx,Nz,fh1,fh2,fh3,fh4] = output_plots(name,runID,i,parfile, contfile); 
+    
+    
+end
+legend(name_1,name_2,name_3, 'Interpreter','latex','location','best')
 legend
 
-% 
-% for i = 1:34
-%       filename = ['file',int2str(i)];
-%       load([filename '.txt'],'-ascii');
-%       plot( filename(:,1), filename(:,2) );
-% end
+% save output to file
+
+if Nx <= 10 && Nz <= 10  % print 0D plots
+    name_save = [name,'_tch'];
+    print(fh1,name_save,'-dpng','-r300','-opengl');
+    name_save = [name,'_aux'];
+    print(fh2,name_save,'-dpng','-r300','-opengl');
+    name_save = [name,'_gch'];
+    print(fh3,name_save,'-dpng','-r300','-opengl');
+elseif Nx <= 10  % create 1D plots
+    name_save = [name,'_tch'];
+    print(fh1,name_save,'-dpng','-r300','-opengl');
+    name_save = [name,'_vep'];
+    print(fh2,name_save,'-dpng','-r300','-opengl');
+    name_save = [name,'_aux'];
+    print(fh3,name_save,'-dpng','-r300','-opengl');
+    name_save = [name,'_gch'];
+    print(fh4,name_save,'-dpng','-r300','-opengl');
+end
