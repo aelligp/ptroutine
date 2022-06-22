@@ -1,4 +1,4 @@
-%% Double Diffusive COnvectoin Analyses
+%% Double Diffusive Convection Analyses
 % Use this script to analyse the different factors which influence the
 % layered convection in the nakhla model
 % different density of T, c and x
@@ -8,8 +8,10 @@
 %define environment and load files
 runID   = '2D_Ta8_interm_N200';
 outdir  = '../Cluster/200resolution/intermediate/Ta8/out/';
+
 path    = strcat(outdir,runID);
 addpath(path);
+
 parfile =  [path ,'/', runID, '_par.mat'];
 contfile=  [path ,'/', runID, '_cont.mat']; %set to desired .mat file number
 if exist(parfile,'file'); load(parfile); end

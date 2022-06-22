@@ -19,7 +19,7 @@ Div_V  =  0.*P;  Div_rhoV = 0.*P;  Div_rhoVo = Div_rhoV;
 
 % update velocity divergence
 Div_V(2:end-1,2:end-1) = ddz(W(:,2:end-1),h) ...                           % get velocity divergence
-                       + ddx(U(2:end-1,:),h);
+    + ddx(U(2:end-1,:),h);
 Div_V([1 end],:) = Div_V([2 end-1],:);                                     % apply boundary conditions
 Div_V(:,[1 end]) = Div_V(:,[2 end-1]);
 
@@ -28,9 +28,10 @@ dcy_rip = rho.*rip./HLRIP.*log(2);
 dcy_rid = rho.*rid./HLRID.*log(2);
 
 
-%init; update;
+%init; 
+%update;
 % THETA = theta;
-% rhoo = rho; 
+% rhoo = rho;
 % update;
 
 %necessary for 1D plots
@@ -43,7 +44,7 @@ Zfc       = (Z(1:end-1)+Z(2:end))./2;
 % prepare for plotting
 TX = {'Interpreter','Latex'}; FS = {'FontSize',12};
 TL = {'TickLabelInterpreter','Latex'}; TS = {'FontSize',10};
-UN = {'Units','Centimeters'}; 
+UN = {'Units','Centimeters'};
 LW = {'LineWidth',1};
 
 
@@ -53,40 +54,39 @@ CL = {'Color',[0.0 0.0 0.0],[0.80 0.15 0.10],[0.10 0.15 0.65],[0.45 0.60 0.95]};
 
 if Nx <= 10 && Nz <= 10  % create 0D plots
 
-
-    fh1 = figure(1);
+    fh1 = figure(1); clf;
     subplot(4,1,1)
-    plot(hist.time/hr,hist.T(:,2)-273.15,LS{[1,i+1]}, LS{[1,i+1]}, CL{[1,2]},LW{:}); axis xy tight; box on;
+    plot(hist.time/hr,hist.T(:,2)-273.15,CL{[1,2]},LW{:}); axis xy tight; box on;
     title('$T [^\circ$C]',TX{:},FS{:}); set(gca,TL{:},TS{:});
     subplot(4,1,2)
-    plot(hist.time/hr,hist.cx(:,2)*100,LS{[1,i+1]}, LS{[1,i+1]}, CL{[1,4]},LW{:}); axis xy tight; box on; hold on;
-    plot(hist.time/hr,hist.cm(:,2)*100,LS{[1,i+1]}, LS{[1,i+1]}, CL{[1,3]},LW{:});
-    plot(hist.time/hr,hist.c(:,2)./(1-hist.f(:,2))*100,LS{[1,i+1]}, CL{[1,2]},LW{:});
+    plot(hist.time/hr,hist.cx(:,2)*100,CL{[1,4]},LW{:}); axis xy tight; box on; hold on;
+    plot(hist.time/hr,hist.cm(:,2)*100,CL{[1,3]},LW{:});
+    plot(hist.time/hr,hist.c(:,2)./(1-hist.f(:,2))*100,CL{[1,2]},LW{:});
     title('$\bar{c}/(1-f)$ [wt\% SiO$_2$]',TX{:},FS{:}); set(gca,TL{:},TS{:});
     subplot(4,1,3)
-    semilogy(hist.time/hr,hist.vf(:,2)*100,LS{[1,i+1]}, CL{[1,4]},LW{:}); axis xy tight; box on; hold on;
-    semilogy(hist.time/hr,hist.vm(:,2)*100,LS{[1,i+1]}, CL{[1,3]},LW{:});
-    semilogy(hist.time/hr,hist.v(:,2)./(1-hist.x(:,2))*100,LS{[1,i+1]}, CL{[1,2]},LW{:});
+    semilogy(hist.time/hr,hist.vf(:,2)*100,CL{[1,4]},LW{:}); axis xy tight; box on; hold on;
+    semilogy(hist.time/hr,hist.vm(:,2)*100,CL{[1,3]},LW{:});
+    semilogy(hist.time/hr,hist.v(:,2)./(1-hist.x(:,2))*100,CL{[1,2]},LW{:});
     title('$\bar{v}/(1-x)$ [wt\% H$_2$O]',TX{:},FS{:}); set(gca,TL{:},TS{:});
     subplot(4,1,4)
-    plot(hist.time/hr,hist.mu (:,2)*100.*(hist.mu (:,2)>1e-9),LS{[1,i+1]}, CL{[1,3]},LW{:}); axis xy tight; box on; hold on;
-    plot(hist.time/hr,hist.phi(:,2)*100.*(hist.phi(:,2)>1e-9),LS{[1,i+1]}, CL{[1,5]},LW{:});
-    plot(hist.time/hr,hist.chi(:,2)*100.*(hist.chi(:,2)>1e-9),LS{[1,i+1]}, CL{[1,4]},LW{:});
+    plot(hist.time/hr,hist.mu (:,2)*100.*(hist.mu (:,2)>1e-9),CL{[1,3]},LW{:}); axis xy tight; box on; hold on;
+    plot(hist.time/hr,hist.phi(:,2)*100.*(hist.phi(:,2)>1e-9),CL{[1,5]},LW{:});
+    plot(hist.time/hr,hist.chi(:,2)*100.*(hist.chi(:,2)>1e-9),CL{[1,4]},LW{:});
     title(['$\mu$, $\chi$, $\phi$ [vol\%]'],TX{:},FS{:}); set(gca,TL{:},TS{:});
     xlabel('Time [hr]',TX{:},FS{:});
 
-    fh2 = figure(2);
+    fh2 = figure(2); clf;
     subplot(4,1,1)
-    plot(hist.time/hr,hist.rhom(:,2),LS{[1,i+1]}, CL{[1,3]},LW{:}); axis xy tight; box on; hold on
-    plot(hist.time/hr,hist.rhox(:,2),LS{[1,i+1]}, CL{[1,4]},LW{:});
-    plot(hist.time/hr,hist.rho (:,2),LS{[1,i+1]}, CL{[1,2]},LW{:});
+    plot(hist.time/hr,hist.rhom(:,2),'-',CL{[1,3]},LW{:}); axis xy tight; box on; hold on
+    plot(hist.time/hr,hist.rhox(:,2),'-',CL{[1,4]},LW{:});
+    plot(hist.time/hr,hist.rho (:,2),'-',CL{[1,2]},LW{:});
     title('$\bar{\rho}$ [kg/m$^3$]',TX{:},FS{:}); set(gca,TL{:},TS{:});
     subplot(4,1,2)
-    semilogy(hist.time/hr,hist.eta(:,2),LS{[1,i+1]}, CL{[1,2]},LW{:}); axis xy tight; box on;
+    semilogy(hist.time/hr,hist.eta(:,2),'k-',LW{:}); axis xy tight; box on;
     title('$\bar{\eta}$ [Pas]',TX{:},FS{:}); set(gca,TL{:},TS{:});
     subplot(4,1,3)
-    plot(hist.time/hr,    hist.Gx(:,2)./hist.rho(:,2)*hr.*(hist.chi(:,2)>1e-9),LS{[1,i+1]}, CL{[1,4]},LW{:}); axis xy tight; box on; hold on;
-    plot(hist.time/hr,10.*hist.Gf(:,2)./hist.rho(:,2)*hr.*(hist.phi(:,2)>1e-9),LS{[1,i+1]}, CL{[1,5]},LW{:});
+    plot(hist.time/hr,    hist.Gx(:,2)./hist.rho(:,2)*hr.*(hist.chi(:,2)>1e-9),CL{[1,4]},LW{:}); axis xy tight; box on; hold on;
+    plot(hist.time/hr,10.*hist.Gf(:,2)./hist.rho(:,2)*hr.*(hist.phi(:,2)>1e-9),CL{[1,5]},LW{:});
     title('$10 \times \Gamma_f/\bar{\rho}$, $\Gamma_x/\bar{\rho}$ [wt \%/hr]',TX{:},FS{:}); set(gca,TL{:},TS{:});
     subplot(4,1,4)
     plot(hist.time/hr,hist.dV(:,2)*hr,'k-',LW{:}); axis xy tight; box on;
@@ -95,75 +95,75 @@ if Nx <= 10 && Nz <= 10  % create 0D plots
 
 elseif Nx <= 10  % create 1D plots
 
-    fh1 = figure(1);
+    fh1 = figure(1); clf;
     subplot(1,5,1)
-    plot(mean(T(2:end-1,2:end-1),2)-273.15,Z(2:end-1).',LS{[1,i+1]}, CL{[1,2]},LW{:}); axis ij tight; box on;
+    plot(mean(T(2:end-1,2:end-1),2)-273.15,Z(2:end-1).',CL{[1,2]},LW{:}); axis ij tight; box on;
     title('$T [^\circ$C]',TX{:},FS{:}); ylabel('Depth [m]',TX{:},FS{:}); set(gca,TL{:},TS{:});
     subplot(1,5,2)
-    plot(mean(cx(2:end-1,2:end-1),2)*100,Z(2:end-1).',LS{[1,i+1]}, CL{[1,4]},LW{:}); axis ij tight; box on; hold on;
-    plot(mean(cm(2:end-1,2:end-1),2)*100,Z(2:end-1).',LS{[1,i+1]}, CL{[1,3]},LW{:});
-    plot(mean(c(2:end-1,2:end-1)./(1-f(2:end-1,2:end-1)),2)*100,Z(2:end-1).',LS{[1,i+1]}, CL{[1,2]},LW{:});
+    plot(mean(cx(2:end-1,2:end-1),2)*100,Z(2:end-1).',CL{[1,4]},LW{:}); axis ij tight; box on; hold on;
+    plot(mean(cm(2:end-1,2:end-1),2)*100,Z(2:end-1).',CL{[1,3]},LW{:});
+    plot(mean(c(2:end-1,2:end-1)./(1-f(2:end-1,2:end-1)),2)*100,Z(2:end-1).',CL{[1,2]},LW{:});
     title('$\bar{c}/(1-f)$ [wt\%]',TX{:},FS{:}); set(gca,TL{:},TS{:});
     subplot(1,5,3)
-    semilogx(mean(max(1e-6,vf(2:end-1,2:end-1)*100),2),Z(2:end-1).',LS{[1,i+1]}, CL{[1,5]},LW{:}); axis ij tight; box on; hold on;
-    semilogx(mean(max(1e-6,vm(2:end-1,2:end-1)*100),2),Z(2:end-1).',LS{[1,i+1]}, CL{[1,3]},LW{:});
-    semilogx(mean(max(1e-6,v(2:end-1,2:end-1)./(1-x(2:end-1,2:end-1))*100),2),Z(2:end-1).',LS{[1,i+1]}, CL{[1,2]},LW{:});
+    semilogx(mean(max(1e-6,vf(2:end-1,2:end-1)*100),2).*any(v(:)>10*TINY),Z(2:end-1).',CL{[1,5]},LW{:}); axis ij tight; box on; hold on;
+    semilogx(mean(max(1e-6,vm(2:end-1,2:end-1)*100),2).*any(v(:)>10*TINY),Z(2:end-1).',CL{[1,3]},LW{:});
+    semilogx(mean(max(1e-6,v(2:end-1,2:end-1)./(1-x(2:end-1,2:end-1))*100).*any(v(:)>10*TINY),2),Z(2:end-1).',CL{[1,2]},LW{:});
     title('$\bar{v}/(1-x)$ [wt\%]',TX{:},FS{:}); set(gca,TL{:},TS{:});
     subplot(1,5,4)
-    plot(mean(mu (2:end-1,2:end-1),2)*100.*(mean(mu (2:end-1,2:end-1),2)>1e-9),Z(2:end-1).',LS{[1,i+1]}, CL{[1,3]},LW{:}); axis ij tight; box on; hold on;
-    plot(mean(phi(2:end-1,2:end-1),2)*100.*(mean(phi(2:end-1,2:end-1),2)>1e-9),Z(2:end-1).',LS{[1,i+1]}, CL{[1,5]},LW{:});
-    plot(mean(chi(2:end-1,2:end-1),2)*100.*(mean(chi(2:end-1,2:end-1),2)>1e-9),Z(2:end-1).',LS{[1,i+1]}, CL{[1,4]},LW{:});
+    plot(mean(mu (2:end-1,2:end-1),2)*100.*(mean(mu (2:end-1,2:end-1),2)>1e-9),Z(2:end-1).',CL{[1,3]},LW{:}); axis ij tight; box on; hold on;
+    plot(mean(phi(2:end-1,2:end-1),2)*100.*(mean(phi(2:end-1,2:end-1),2)>1e-9),Z(2:end-1).',CL{[1,5]},LW{:});
+    plot(mean(chi(2:end-1,2:end-1),2)*100.*(mean(chi(2:end-1,2:end-1),2)>1e-9),Z(2:end-1).',CL{[1,4]},LW{:});
     title(['$\mu$, $\phi$, $\chi$ [vol\%]'],TX{:},FS{:}); set(gca,TL{:},TS{:});
     subplot(1,5,5)
-    plot(mean(-W(:,2:end-1),2)*hr,Zfc.',LS{[1,i+1]}, CL{[1,2]},LW{:}); axis ij tight; box on; hold on;
-    plot(mean(-(f(1:end-1,2:end-1)+f(2:end,2:end-1))/2.*wf(:,2:end-1),2)*hr,Zfc.',LS{[1,i+1]}, CL{[1,5]},LW{:});
-    plot(mean(-(x(1:end-1,2:end-1)+x(2:end,2:end-1))/2.*wx(:,2:end-1),2)*hr,Zfc.',LS{[1,i+1]}, CL{[1,4]},LW{:});
+    plot(mean(-W(:,2:end-1),2)*hr,Zfc.',CL{[1,2]},LW{:}); axis ij tight; box on; hold on;
+    plot(mean(-(f(1:end-1,2:end-1)+f(2:end,2:end-1))/2.*wf(:,2:end-1),2)*hr,Zfc.',CL{[1,5]},LW{:});
+    plot(mean(-(x(1:end-1,2:end-1)+x(2:end,2:end-1))/2.*wx(:,2:end-1),2)*hr,Zfc.',CL{[1,4]},LW{:});
     title('$W$, $w_\Delta^f$, $w_\Delta^x$ [m/hr]',TX{:},FS{:}); ylabel('Depth [m]',TX{:},FS{:}); set(gca,TL{:},TS{:});
 
-    fh2 = figure(3);
+    fh2 = figure(3); clf;
     subplot(1,5,1)
-    plot(mean(rhox(2:end-1,2:end-1),2),Z(2:end-1).',LS{[1,i+1]}, CL{[1,4]},LW{:}); axis ij tight; box on; hold on;
-    plot(mean(rhom(2:end-1,2:end-1),2),Z(2:end-1).',LS{[1,i+1]}, CL{[1,3]},LW{:});
-    plot(mean(rho (2:end-1,2:end-1),2),Z(2:end-1).',LS{[1,i+1]}, CL{[1,2]},LW{:});
+    plot(mean(rhox(2:end-1,2:end-1),2),Z(2:end-1).',CL{[1,4]},LW{:}); axis ij tight; box on; hold on;
+    plot(mean(rhom(2:end-1,2:end-1),2),Z(2:end-1).',CL{[1,3]},LW{:});
+    plot(mean(rho (2:end-1,2:end-1),2),Z(2:end-1).',CL{[1,2]},LW{:});
     title('$\bar{\rho}$ [kg/m$^3$]',TX{:},FS{:}); ylabel('Depth [km]',TX{:},FS{:}); set(gca,TL{:},TS{:});
     subplot(1,5,2)
-    semilogx(geomean(min(eta(2:end-1,2:end-1),etam(2:end-1,2:end-1)),2),Z(2:end-1).',LS{[1,i+1]}, CL{[1,3]},LW{:}); axis ij tight; box on; hold on;
-    semilogx(geomean(eta(2:end-1,2:end-1),2),Z(2:end-1).',LS{[1,i+1]}, CL{[1,2]},LW{:});
+    semilogx(geomean(min(eta(2:end-1,2:end-1),etam(2:end-1,2:end-1)),2),Z(2:end-1).',CL{[1,3]},LW{:}); axis ij tight; box on; hold on;
+    semilogx(geomean(eta(2:end-1,2:end-1),2),Z(2:end-1).',CL{[1,2]},LW{:});
     title('$\bar{\eta}$ [Pas]',TX{:},FS{:}); set(gca,TL{:},TS{:});
     subplot(1,5,3)
-    plot(mean(    Gx(2:end-1,2:end-1)./rho(2:end-1,2:end-1),2)*hr.*(mean(chi(2:end-1,2:end-1),2)>1e-9),Z(2:end-1).',LS{[1,i+1]}, CL{[1,4]},LW{:}); axis ij tight; box on; hold on;
-    plot(mean(10.*Gf(2:end-1,2:end-1)./rho(2:end-1,2:end-1),2)*hr.*(mean(phi(2:end-1,2:end-1),2)>1e-9),Z(2:end-1).',LS{[1,i+1]}, CL{[1,5]},LW{:});
+    plot(mean(    Gx(2:end-1,2:end-1)./rho(2:end-1,2:end-1),2)*hr.*(mean(chi(2:end-1,2:end-1),2)>1e-9),Z(2:end-1).',CL{[1,4]},LW{:}); axis ij tight; box on; hold on;
+    plot(mean(10.*Gf(2:end-1,2:end-1)./rho(2:end-1,2:end-1),2)*hr.*(mean(phi(2:end-1,2:end-1),2)>1e-9),Z(2:end-1).',CL{[1,5]},LW{:});
     title('$10 \times \Gamma_f/\bar{\rho}$, $\Gamma_x/\bar{\rho}$ [wt/hr]',TX{:},FS{:}); set(gca,TL{:},TS{:});
     subplot(1,5,4)
-    plot(mean(VolSrc(2:end-1,2:end-1),2),Z(2:end-1).',LS{[1,i+1]}, CL{[1,2]},LW{:}); axis ij tight; box on;
+    plot(mean(VolSrc(2:end-1,2:end-1),2),Z(2:end-1).',CL{[1,2]},LW{:}); axis ij tight; box on;
     title('$\dot{V}$ [1/hr]',TX{:},FS{:}); set(gca,TL{:},TS{:});
     subplot(1,5,5)
-    plot(mean(P(2:end-1,2:end-1),2)/1e3,Z(2:end-1).',LS{[1,i+1]}, CL{[1,2]},LW{:}); axis ij tight; box on;
+    plot(mean(P(2:end-1,2:end-1),2)/1e3,Z(2:end-1).',CL{[1,2]},LW{:}); axis ij tight; box on;
     title('$P$ [kPa]',TX{:},FS{:}); set(gca,TL{:},TS{:});
 
-    fh3 = figure(4);
+    fh3 = figure(4); clf;
     subplot(1,5,1)
-    semilogx(mean(max(1e-3,min(1e3,itx(2:end-1,2:end-1))),2)*100,Z(2:end-1).',LS{[1,i+1]}, CL{[1,4]},LW{:}); axis ij tight; box on; hold on;
-    semilogx(mean(max(1e-3,min(1e3,itm(2:end-1,2:end-1))),2)*100,Z(2:end-1).',LS{[1,i+1]}, CL{[1,3]},LW{:});
-    semilogx(mean(max(1e-3,min(1e3,it (2:end-1,2:end-1)./(1-f(2:end-1,2:end-1)))),2)*100,Z(2:end-1).',LS{[1,i+1]}, CL{[1,2]},LW{:});
+    semilogx(mean(max(1e-3,min(1e3,itx(2:end-1,2:end-1))),2)*100,Z(2:end-1).',CL{[1,4]},LW{:}); axis ij tight; box on; hold on;
+    semilogx(mean(max(1e-3,min(1e3,itm(2:end-1,2:end-1))),2)*100,Z(2:end-1).',CL{[1,3]},LW{:});
+    semilogx(mean(max(1e-3,min(1e3,it (2:end-1,2:end-1)./(1-f(2:end-1,2:end-1)))),2)*100,Z(2:end-1).',CL{[1,2]},LW{:});
     title('incomp. trace',TX{:},FS{:}); ylabel('Depth [m]',TX{:},FS{:}); set(gca,TL{:},TS{:});
     subplot(1,5,2)
-    semilogx(mean(max(1e-3,min(1e3,ctx(2:end-1,2:end-1))),2)*100,Z(2:end-1).',LS{[1,i+1]}, CL{[1,4]},LW{:}); axis ij tight; box on; hold on;
-    semilogx(mean(max(1e-3,min(1e3,ctm(2:end-1,2:end-1))),2)*100,Z(2:end-1).',LS{[1,i+1]}, CL{[1,3]},LW{:});
-    semilogx(mean(max(1e-3,min(1e3,ct (2:end-1,2:end-1)./(1-f(2:end-1,2:end-1)))),2)*100,Z(2:end-1).',LS{[1,i+1]}, CL{[1,2]},LW{:});
+    semilogx(mean(max(1e-3,min(1e3,ctx(2:end-1,2:end-1))),2)*100,Z(2:end-1).',CL{[1,4]},LW{:}); axis ij tight; box on; hold on;
+    semilogx(mean(max(1e-3,min(1e3,ctm(2:end-1,2:end-1))),2)*100,Z(2:end-1).',CL{[1,3]},LW{:});
+    semilogx(mean(max(1e-3,min(1e3,ct (2:end-1,2:end-1)./(1-f(2:end-1,2:end-1)))),2)*100,Z(2:end-1).',CL{[1,2]},LW{:});
     title('comp. trace',TX{:},FS{:}); set(gca,TL{:},TS{:});
     subplot(1,5,3)
-    plot(mean(si(2:end-1,2:end-1),2),Z(2:end-1).',LS{[1,i+1]}, CL{[1,2]},LW{:}); axis ij tight; box on;
+    plot(mean(si(2:end-1,2:end-1),2),Z(2:end-1).',CL{[1,2]},LW{:}); axis ij tight; box on;
     title('stable isotope',TX{:},FS{:}); set(gca,TL{:},TS{:});
     subplot(1,5,4)
-    semilogx(mean(max(1e-3,min(1e3,ripx(2:end-1,2:end-1))),2)*100,Z(2:end-1).',LS{[1,i+1]}, CL{[1,4]},LW{:}); axis ij tight; box on; hold on;
-    semilogx(mean(max(1e-3,min(1e3,ripm(2:end-1,2:end-1))),2)*100,Z(2:end-1).',LS{[1,i+1]}, CL{[1,3]},LW{:});
-    semilogx(mean(max(1e-3,min(1e3,rip (2:end-1,2:end-1)./(1-f(2:end-1,2:end-1)))),2)*100,Z(2:end-1).',LS{[1,i+1]}, CL{[1,2]},LW{:});
+    semilogx(mean(max(1e-3,min(1e3,ripx(2:end-1,2:end-1))),2)*100,Z(2:end-1).',CL{[1,4]},LW{:}); axis ij tight; box on; hold on;
+    semilogx(mean(max(1e-3,min(1e3,ripm(2:end-1,2:end-1))),2)*100,Z(2:end-1).',CL{[1,3]},LW{:});
+    semilogx(mean(max(1e-3,min(1e3,rip (2:end-1,2:end-1)./(1-f(2:end-1,2:end-1)))),2)*100,Z(2:end-1).',CL{[1,2]},LW{:});
     title(['radiogenic parent'],TX{:},FS{:}); set(gca,TL{:},TS{:});
     subplot(1,5,5)
-    semilogx(mean(max(1e-3,min(1e3,ridx(2:end-1,2:end-1))),2)*100,Z(2:end-1).',LS{[1,i+1]}, CL{[1,4]},LW{:}); axis ij tight; box on; hold on;
-    semilogx(mean(max(1e-3,min(1e3,ridm(2:end-1,2:end-1))),2)*100,Z(2:end-1).',LS{[1,i+1]}, CL{[1,3]},LW{:});
-    semilogx(mean(max(1e-3,min(1e3,rid(2:end-1,2:end-1)./(1-f(2:end-1,2:end-1)))),2)*100,Z(2:end-1).',LS{[1,i+1]}, CL{[1,2]},LW{:});
+    semilogx(mean(max(1e-3,min(1e3,ridx(2:end-1,2:end-1))),2)*100,Z(2:end-1).',CL{[1,4]},LW{:}); axis ij tight; box on; hold on;
+    semilogx(mean(max(1e-3,min(1e3,ridm(2:end-1,2:end-1))),2)*100,Z(2:end-1).',CL{[1,3]},LW{:});
+    semilogx(mean(max(1e-3,min(1e3,rid(2:end-1,2:end-1)./(1-f(2:end-1,2:end-1)))),2)*100,Z(2:end-1).',CL{[1,2]},LW{:});
     title(['radiogenic daughter'],TX{:},FS{:}); set(gca,TL{:},TS{:});
 
 
