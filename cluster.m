@@ -1,11 +1,16 @@
-% Plot cluster.mat files
+% Plot cluster .mat files
+% Use this script to plot the saved .mat files generated on the ETH Euler 
+% Cluster. Be sure to change the sourcedir and outdir depending on your
+% file location.
+% PAel June 2022
+
 close all, clear all
 
 n=500;
-for i= 1:n
-    sourcedir   = '../Cluster/200resolution/rhyolitic/Ta4/';
+for i= 0:n
+    sourcedir   = '../Cluster/nakhla_T8_interm/';
     outdir      = 'out/';
-    runID       = '2D_Ta4_rhy_N200';
+    runID       = '2D_TT4_Ta4_N150_interm';
 
     path        = strcat(sourcedir,outdir,runID);
     src         = strcat(sourcedir,'src');
@@ -40,7 +45,7 @@ for i= 1:n
         print(fh2,name_save,'-dpng','-r300','-opengl');
         name_save = [outdir,'/',runID,'/',name,'_aux'];
         print(fh3,name_save,'-dpng','-r300','-opengl');
-        name_save = [outdir,'/',runID,'/',name,'_gch'];
+        name_save = [outdir,'/',runID,'/',name,'_gch_'];
         print(fh4,name_save,'-dpng','-r300','-opengl');
     else
         name_save = [outdir,'/',runID,'/',name,'_vep_',num2str(i)];
@@ -51,7 +56,7 @@ for i= 1:n
         print(fh3,name_save,'-dpng','-r300','-opengl');
         name_save = [outdir,'/',runID,'/',name,'_sgr_',num2str(i)];
         print(fh4,name_save,'-dpng','-r300','-opengl');
-        name_save = [outdir,'/',runID,'/',name,'_gch',num2str(i)];
+        name_save = [outdir,'/',runID,'/',name,'_gch_',num2str(i)];
         print(fh5,name_save,'-dpng','-r300','-opengl');
         %name_save = [runID,'_eql',num2str(i)];
         %print(fh7,name,'-dpng','-r300','-opengl');

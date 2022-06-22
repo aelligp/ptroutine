@@ -1,4 +1,4 @@
-
+%Function for Cluster and MainPlottingRoutine.m
 function [Nx,Nz,fh1,fh2,fh3,fh4,fh5] = output_plots_cluster(name,runID,i,parfile, contfile)  %for 0D fh1-3 and for 1D fh1-4
 
 %loading workspace
