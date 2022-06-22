@@ -14,6 +14,28 @@ X         = -h/2:h:L+h/2;
 Z         = -h/2:h:D+h/2;
 Nx = length(X);
 Nz = length(Z);
+
+% minimum cutoff phase, component fractions
+TINY     =  1e-16;
+
+% update phase densities
+rhom = rhom0 .* (1 - aTm.(T-perT-273.15) - gCm.(cm-(perCx+perCm)/2));
+rhox = rhox0 .* (1 - aTx.(T-perT-273.15) - gCx.(cx-(perCx+perCm)/2));
+rhof = rhof0 .* (1 - aTf.(T-perT-273.15) + bPf.(Pt-Ptop ));
+
+% update effective viscosity
+etam  = etam0 .* exp(Em./(8.3145.*T)-Em./(8.3145.*(perT+273.15))) ...
+              .* Fmc.^((cm-(perCx+perCm)/2)./(cphs1-cphs0)) ...
+              .* Fmv.^(vm./0.01);                                          % variable melt viscosity
+etaf  = etaf0.* ones(size(f));                                             % constant fluid viscosity
+etax  = etax0.* ones(size(x));          
+
+% get geochemical phase compositions
+itm  = it./(m + x.*KIT); itx = it./(m./KIT + x);
+ctm  = ct./(m + x.*KCT); ctx = ct./(m./KCT + x);
+ripm = rip./(m + x.*KRIP); ripx = rip./(m./KRIP + x);
+ridm = rid./(m + x.*KRID); ridx = rid./(m./KRID + x);
+
 %Velocity field
 Div_V  =  0.*P;  Div_rhoV = 0.*P;  Div_rhoVo = Div_rhoV;
 
@@ -28,18 +50,12 @@ dcy_rip = rho.*rip./HLRIP.*log(2);
 dcy_rid = rho.*rid./HLRID.*log(2);
 
 
-%init; 
-%update;
-% THETA = theta;
-% rhoo = rho;
-% update;
-
 %necessary for 1D plots
-% [XX,ZZ]   = meshgrid(X,Z);
-% Xfc       = (X(1:end-1)+X(2:end))./2;
+[XX,ZZ]   = meshgrid(X,Z);
+Xfc       = (X(1:end-1)+X(2:end))./2;
 Zfc       = (Z(1:end-1)+Z(2:end))./2;
-% [XXu,ZZu] = meshgrid(Xfc,Z);
-% [XXw,ZZw] = meshgrid(X,Zfc);
+[XXu,ZZu] = meshgrid(Xfc,Z);
+[XXw,ZZw] = meshgrid(X,Zfc);
 
 % prepare for plotting
 TX = {'Interpreter','Latex'}; FS = {'FontSize',12};

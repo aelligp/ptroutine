@@ -34,18 +34,18 @@ for i= 0:n
         mkdir([outdir,'/',runID]);
     end
     if Nx <= 10 && Nz <= 10  % print 0D plots
-        name = [opdir,'/',runID,'/',runID,'_tch_',num2str(i)];
+        name = [outdir,'/',runID,'/',runID,'_tch_',num2str(i)];
         print(fh1,name,'-dpng','-r300','-opengl');
-        name = [opdir,'/',runID,'/',runID,'_aux_',num2str(i)];
+        name = [outdir,'/',runID,'/',runID,'_aux_',num2str(i)];
         print(fh2,name,'-dpng','-r300','-opengl');
         name = [opdir,'/',runID,'/',runID,'_eql',num2str(i)];
         print(fh7,name,'-dpng','-r300','-opengl');
     elseif Nx <= 10  % create 1D plots
-        name = [opdir,'/',runID,'/',runID,'_sol_',num2str(i)];
+        name = [outdir,'/',runID,'/',runID,'_sol_',num2str(i)];
         print(fh1,name,'-dpng','-r300','-opengl');
-        name = [opdir,'/',runID,'/',runID,'_aux_',num2str(i)];
+        name = [outdir,'/',runID,'/',runID,'_aux_',num2str(i)];
         print(fh2,name,'-dpng','-r300','-opengl');
-        name = [opdir,'/',runID,'/',runID,'_gch_',num2str(i)];
+        name = [outdir,'/',runID,'/',runID,'_gch_',num2str(i)];
         print(fh3,name,'-dpng','-r300','-opengl');
       
     else
