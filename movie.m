@@ -14,15 +14,15 @@ path        = strcat(outdir,runID);
 %add to path
 addpath(path);
 
-movie = VideoWriter( '/plot/out/Movies/2D_Ta8_interm_N200/Sgr.avi');
-movie.FrameRate = 5;
-open(movie);
+writerObj = VideoWriter( '/plot/out/Movies/2D_Ta8_interm_N200/Sgr.avi');
+writerObj.FrameRate = 5;
+open(writerObj);
 for n = 1 : 54
-  name = sprintf('2D_Ta8_interm_N200_sgr_%d.png', n);
-  image = imread(name);
-  writeVideo(movie, image);
+  filename = sprintf('2D_Ta8_interm_N200_sgr_%d.png', n);
+  thisimage = imread(filename);
+  writeVideo(writerObj, thisimage);
 end
 if ~isfolder([outdir,'/','Movies','/',runID])
         mkdir([outdir,'/','Movies','/',runID]);
 end
-close(movie);
+close(writerObj);
