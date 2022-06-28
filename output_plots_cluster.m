@@ -10,8 +10,14 @@ end
 load ocean %ocean colormap
 
 % define Nx and Nz for output file to recognize if 0D, 1D
-X         = -h/2:h:L+h/2;
-Z         = -h/2:h:D+h/2;
+
+% % for the illustration of 2D plots in 1D use these lines
+% L = 10/200;
+% X         = -h/2:h:L+h/2;
+% Z         = -h/2:h:D+h/2;
+
+% X         = -h/2:h:L+h/2;
+% Z         = -h/2:h:D+h/2;
 Nx = length(X);
 Nz = length(Z);
 
@@ -19,9 +25,9 @@ Nz = length(Z);
 TINY     =  1e-16;
 
 % update phase densities
-rhom = rhom0 .* (1 - aTm.(T-perT-273.15) - gCm.(cm-(perCx+perCm)/2));
-rhox = rhox0 .* (1 - aTx.(T-perT-273.15) - gCx.(cx-(perCx+perCm)/2));
-rhof = rhof0 .* (1 - aTf.(T-perT-273.15) + bPf.(Pt-Ptop ));
+rhom = rhom0 .* (1 - aTm.*(T-perT-273.15) - gCm.*(cm-(perCx+perCm)/2));
+rhox = rhox0 .* (1 - aTx.*(T-perT-273.15) - gCx.*(cx-(perCx+perCm)/2));
+rhof = rhof0 .* (1 - aTf.*(T-perT-273.15) + bPf.*(Pt-Ptop ));
 
 % update effective viscosity
 etam  = etam0 .* exp(Em./(8.3145.*T)-Em./(8.3145.*(perT+273.15))) ...
