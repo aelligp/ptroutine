@@ -3,15 +3,17 @@
 % in general
 % PAel July 2022
 
+close all; clear; clc;
+
 % source directory and loading of variables
 
-i = 150; % specify which time step you would want to plot, important compare each sim @ same time step
+n = 40; % specify which time step you would want to plot, important compare each sim @ same time step
 
-for n = 1:6
+for i = 1:6
     sourcedir   = '../Cluster/';
     outdir      = 'out/';
 
-    switch n 
+    switch i 
         case 1
             runID       = '2D_Ta4_bas_N200';
         case 2
@@ -55,16 +57,15 @@ LW = {'LineWidth',1};
 
 
 LS = {'LineStyle','-','--','-.',':'};
-CL = {'Color',[0.0 0.0 0.0],[0.80 0.15 0.10],[0.10 0.15 0.65],[0.45 0.60 0.95], [0.20 0.25 0.75],[0.35 0.70 0.50]};
+%CL = {'Color',[0.0 0.0 0.0],[0.80 0.15 0.10],[0.10 0.15 0.65],[0.45 0.60 0.95]};
 
 fh(1) = figure(1); 
-plot(hist.time/hr,hist.RaSI,'-',CL{[1,i]},LW{:}); axis xy tight; box on; hold on
-hold on 
-
+plot(hist.time/hr, si0+hist.RaSI,'-',LW{:},'DisplayName',runID); axis xy tight; box on; hold on %CL{[1,i]},
+legend
 fh(2) = figure(2);
-plot(hist.time/hr,hist.Ra,'-',CL{[1,i]},LW{:}); axis xy tight; box on; hold on
-hold on 
+plot(hist.time/hr, hist.Ra,'-',LW{:},'DisplayName',runID); axis xy tight; box on; hold on %,CL{[1,i]}
+legend
 
 
-clear
+clear 
 end
