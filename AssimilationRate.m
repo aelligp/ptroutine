@@ -7,25 +7,30 @@ close all; clear; clc;
 
 % source directory and loading of variables
 
-n = 40; % specify which time step you would want to plot, important compare each sim @ same time step
-
 for i = 1:6
     sourcedir   = '../Cluster/';
     outdir      = 'out/';
+    n = 150; % specify which time step you would want to plot, important compare each sim @ same time step
 
     switch i 
         case 1
             runID       = '2D_Ta4_bas_N200';
+            txt        = 'Ta4 basaltic';
         case 2
             runID       = '2D_Ta8_bas_N200';
+            txt        = 'Ta8 basaltic';
         case 3
             runID       = '2D_Ta4_interm_N200';
+            txt        = 'Ta4 intermediate';
         case 4
             runID       = '2D_Ta8_interm_N200';
+            txt        = 'Ta8 intermediate';
         case 5
             runID       = '2D_Ta4_rhy_N200';
+            txt        = 'Ta4 rhyolitic';
         case 6
             runID       = '2D_Ta8_rhy_N200';
+            txt        = 'Ta8 rhyolitic';
     end
             path        = strcat(sourcedir,outdir,runID);
             src         = strcat(sourcedir,'src');
@@ -38,8 +43,9 @@ for i = 1:6
             parfile = [path ,'/', runID, '_par.mat']; % parameter file
             % ocean = load('ocean.mat'); %ocean colormap
 
-            name = runID;
-            contfile = ([runID '_' num2str(i) '.mat']);
+            
+
+            contfile = ([runID '_' num2str(n) '.mat']);
 
             %loading workspace
             if exist(parfile,'file'); load(parfile); end
@@ -60,12 +66,22 @@ LS = {'LineStyle','-','--','-.',':'};
 %CL = {'Color',[0.0 0.0 0.0],[0.80 0.15 0.10],[0.10 0.15 0.65],[0.45 0.60 0.95]};
 
 fh(1) = figure(1); 
-plot(hist.time/hr, si0+hist.RaSI,'-',LW{:},'DisplayName',runID); axis xy tight; box on; hold on %CL{[1,i]},
+plot(hist.time/hr, si0+hist.RaSI,'-',LW{:},'DisplayName',txt); axis xy tight; box on; hold on
+title('stable isotope assimilation',TX{:},FS{:}); xlabel('time [hr]',TX{:},FS{:}); ylabel('Stable isotope [$\%$]',TX{:},FS{:}); set(gca,TL{:},TS{:});
+
 legend
 fh(2) = figure(2);
-plot(hist.time/hr, hist.Ra,'-',LW{:},'DisplayName',runID); axis xy tight; box on; hold on %,CL{[1,i]}
+plot(hist.time/hr, hist.Ra,'-',LW{:},'DisplayName',txt); axis xy tight; box on; hold on
+title('assimilation rate',TX{:},FS{:}); xlabel('time [hr]',TX{:},FS{:}); ylabel('Percentage [\%]',TX{:},FS{:}); set(gca,TL{:},TS{:});
 legend
-
+fh(3) = figure(3); 
+plot(hist.time/hr, c0+hist.RaC,'-',LW{:},'DisplayName',txt); axis xy tight; box on; hold on
+title('assimilation of composition',TX{:},FS{:}); xlabel('time [hr]',TX{:},FS{:}); ylabel('composition [wt \%]',TX{:},FS{:}); set(gca,TL{:},TS{:});
+legend
+fh(4) = figure(4); 
+plot(hist.time/hr, v0+hist.RaV,'-',LW{:},'DisplayName',txt); axis xy tight; box on; hold on
+title('assimilation of volatiles',TX{:},FS{:}); xlabel('time [hr]',TX{:},FS{:}); ylabel('volatiles [wt \%]',TX{:},FS{:}); set(gca,TL{:},TS{:});
+legend
 
 clear 
 end
