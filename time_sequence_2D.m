@@ -65,7 +65,7 @@ for i = 1:5
         load(contfile,'U','W','P','Pt','f','x','m','phi','chi','mu','H','C','V','T','c','v','cm','cx','vm','vf','IT','CT','SI','RIP','RID','it','ct','si','rip','rid','dHdt','dCdt','dVdt','dITdt','dCTdt','dSIdt','dfdt','dxdt','Gf','Gx','rho','eta','exx','ezz','exz','txx','tzz','txz','eII','tII','dt','time','step','hist','VolSrc','wf','wx');
     end
 
-    addpath('src\')
+    addpath('../src/')
     load ocean %ocean colormap
 
     % define Nx and Nz for output file to recognize if 0D, 1D
@@ -165,6 +165,7 @@ for i = 1:5
 
 
     else % create 2D plots
+        
         % set axis and border dimensions
         axh = 6.00; axw = axh*L/D;
         ahs = 0.40; avs = 0.2;
@@ -180,10 +181,6 @@ for i = 1:5
         set(fh1,'Color','w','InvertHardcopy','off');
         set(fh1,'Resize','on');
         ax(1) = axes(UN{:},'position',[axl+(i-1)*axw+(i-1)*ahs axb+0*axh+0*avs axw axh]);
-%         ax(2) = axes(UN{:},'position',[axl+1*axw+1*ahs axb+0*axh+0*avs axw axh]);
-%         ax(3) = axes(UN{:},'position',[axl+2*axw+2*ahs axb+0*axh+0*avs axw axh]);
-%         ax(4) = axes(UN{:},'position',[axl+3*axw+3*ahs axb+0*axh+0*avs axw axh]);
-%         ax(5) = axes(UN{:},'position',[axl+4*axw+4*ahs axb+0*axh+0*avs axw axh]);
 
         fh2 = figure(2); colormap(ocean);
         fh = axb + 1*axh + 0*avs + axt;
@@ -193,12 +190,7 @@ for i = 1:5
         set(fh2,'Color','w','InvertHardcopy','off');
         set(fh2,'Resize','on');
         ax(2) = axes(UN{:},'position',[axl+(i-1)*axw+(i-1)*ahs axb+0*axh+0*avs axw axh]);
-%         ax(1) = axes(UN{:},'position',[axl+0*axw+0*ahs axb+0*axh+0*avs axw axh]);
-%         ax(2) = axes(UN{:},'position',[axl+1*axw+1*ahs axb+0*axh+0*avs axw axh]);
-%         ax(3) = axes(UN{:},'position',[axl+2*axw+2*ahs axb+0*axh+0*avs axw axh]);
-%         ax(4) = axes(UN{:},'position',[axl+3*axw+3*ahs axb+0*axh+0*avs axw axh]);
-%         ax(5) = axes(UN{:},'position',[axl+4*axw+4*ahs axb+0*axh+0*avs axw axh]);
-% 
+
         fh3 = figure(3);  colormap(ocean);
         fh = axb + 1*axh + 0*avs + axt;
         fw = axl + 5.5*axw + 2*ahs + axr;
@@ -207,39 +199,26 @@ for i = 1:5
         set(fh3,'Color','w','InvertHardcopy','off');
         set(fh3,'Resize','off');
         ax(3) = axes(UN{:},'position',[axl+(i-1)*axw+(i-1)*ahs axb+0*axh+0*avs axw axh]);
-%         ax(31) = axes(UN{:},'position',[axl+0*axw+0*ahs axb+0*axh+0*avs axw axh]);
-%         ax(32) = axes(UN{:},'position',[axl+1*axw+1*ahs axb+0*axh+0*avs axw axh]);
-%         ax(33) = axes(UN{:},'position',[axl+2*axw+2*ahs axb+0*axh+0*avs axw axh]);
-%         ax(34) = axes(UN{:},'position',[axl+3*axw+3*ahs axb+0*axh+0*avs axw axh]);
-%         ax(35) = axes(UN{:},'position',[axl+4*axw+4*ahs axb+0*axh+0*avs axw axh]);
 
-%         fh4 = figure(4);  colormap(ocean);
-%         fh = axb + 1*axh + 0*avs + axt;
-%         fw = axl + 5*axw + 2*ahs + axr;
-%         set(fh4,UN{:},'Position',[3 3 fw fh]);
-%         set(fh4,'PaperUnits','Centimeters','PaperPosition',[0 0 fw fh],'PaperSize',[fw fh]);
-%         set(fh4,'Color','w','InvertHardcopy','off');
-%         set(fh4,'Resize','on');
-%         ax(i) = axes(UN{:},'position',[axl+(i-1)*axw+(i-1)*ahs axb+0*axh+0*avs axw axh]);
-%         ax(41) = axes(UN{:},'position',[axl+0*axw+0*ahs axb+0*axh+0*avs axw axh]);
-%         ax(42) = axes(UN{:},'position',[axl+1*axw+1*ahs axb+0*axh+0*avs axw axh]);
-%         ax(43) = axes(UN{:},'position',[axl+2*axw+2*ahs axb+0*axh+0*avs axw axh]);
-%         ax(44) = axes(UN{:},'position',[axl+3*axw+3*ahs axb+0*axh+0*avs axw axh]);
-%         ax(45) = axes(UN{:},'position',[axl+4*axw+4*ahs axb+0*axh+0*avs axw axh]);
 
-%         fh5 = figure(5);  colormap(ocean);
-%         fh = axb + 1*axh + 0*avs + axt;
-%         fw = axl + 5*axw + 2*ahs + axr;
-%         set(fh5,UN{:},'Position',[3 3 fw fh]);
-%         set(fh5,'PaperUnits','Centimeters','PaperPosition',[0 0 fw fh],'PaperSize',[fw fh]);
-%         set(fh5,'Color','w','InvertHardcopy','off');
-%         set(fh5,'Resize','on');
-%         ax(i) = axes(UN{:},'position',[axl+(i-1)*axw+(i-1)*ahs axb+0*axh+0*avs axw axh]);
-%         ax(51) = axes(UN{:},'position',[axl+0*axw+0*ahs axb+0*axh+0*avs axw axh]);
-%         ax(52) = axes(UN{:},'position',[axl+1*axw+1*ahs axb+0*axh+0*avs axw axh]);
-%         ax(53) = axes(UN{:},'position',[axl+2*axw+2*ahs axb+0*axh+0*avs axw axh]);
-%         ax(54) = axes(UN{:},'position',[axl+3*axw+3*ahs axb+0*axh+0*avs axw axh]);
-%         ax(55) = axes(UN{:},'position',[axl+4*axw+4*ahs axb+0*axh+0*avs axw axh]);
+        fh4 = figure(4);  colormap(ocean);
+        fh = axb + 1*axh + 0*avs + axt;
+        fw = axl + 5*axw + 2*ahs + axr;
+        set(fh4,UN{:},'Position',[3 3 fw fh]);
+        set(fh4,'PaperUnits','Centimeters','PaperPosition',[0 0 fw fh],'PaperSize',[fw fh]);
+        set(fh4,'Color','w','InvertHardcopy','off');
+        set(fh4,'Resize','on');
+        ax(4) = axes(UN{:},'position',[axl+(i-1)*axw+(i-1)*ahs axb+0*axh+0*avs axw axh]);
+
+        fh5 = figure(5);  colormap(ocean);
+        fh = axb + 1*axh + 0*avs + axt;
+        fw = axl + 5*axw + 2*ahs + axr;
+        set(fh5,UN{:},'Position',[3 3 fw fh]);
+        set(fh5,'PaperUnits','Centimeters','PaperPosition',[0 0 fw fh],'PaperSize',[fw fh]);
+        set(fh5,'Color','w','InvertHardcopy','off');
+        set(fh5,'Resize','on');
+        ax(5) = axes(UN{:},'position',[axl+(i-1)*axw+(i-1)*ahs axb+0*axh+0*avs axw axh]);
+
 
         % plot temperature in Fig. 1
         figure(1);
@@ -277,10 +256,10 @@ for i = 1:5
        end
 
 
-          figure();
-            sgtitle(['$\chi$ [vol\%]'],TX{:},FS{:},'Color','k');
-        axes(ax(3));
-        imagesc(X(2:end-1),Z(2:end-1),chi(2:end-1,2:end-1).*100.*(chi(2:end-1,2:end-1)>1e-9) ); axis ij equal tight; box on;  cb = colorbar;
+          figure(4);
+            sgtitle(['stable isotope'],TX{:},FS{:},'Color','k');
+        axes(ax());
+        imagesc(X(2:end-1),Z(2:end-1),si(2:end-1,2:end-1)); axis ij equal tight; box on; cb = colorbar;
        set(cb,TL{:},TS{:});set(gca,TL{:},TS{:}); title(['t = ',num2str(time/hr,3),' [hr]'],TX{:},FS{:}); xlabel('Width [m]',TX{:},FS{:}); hold on;
        if i == 1
            ylabel('Depth [m]',TX{:},FS{:});
