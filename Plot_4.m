@@ -1,8 +1,8 @@
 
-function [outdir,path,parfile,contfile] = Plot_2(runID)
+function [outdir,path,parfile,contfile] = Plot_4(runID)
 
     outdir      = '../Cluster/out/';  
-%     runID       = '1D_Ta4_bas';
+%     runID       = '1D_Ta8_rhy';
     
     path        = strcat(outdir,runID);
     addpath(path);

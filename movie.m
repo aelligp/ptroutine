@@ -6,23 +6,27 @@
 % with the runID name.
 % PAel June 2022
 
+srcdir      = '../plot/out/';
 outdir      = '/plot/out/';
-runID       = '2D_Ta8_interm_N200';
+runID       = '2D_Ta4_bas_N200';
 
-path        = strcat(outdir,runID);
+
+path        = strcat(srcdir,runID);
 
 %add to path
 addpath(path);
-
-writerObj = VideoWriter( '/plot/out/Movies/2D_Ta8_interm_N200/Sgr.avi');
-writerObj.FrameRate = 5;
-open(writerObj);
-for n = 1 : 54
-  filename = sprintf('2D_Ta8_interm_N200_sgr_%d.png', n);
-  thisimage = imread(filename);
-  writeVideo(writerObj, thisimage);
-end
 if ~isfolder([outdir,'/','Movies','/',runID])
         mkdir([outdir,'/','Movies','/',runID]);
 end
+
+
+writerObj = VideoWriter( '/plot/out/Movies/2D_Ta4_bas_N200/vep.avi');
+writerObj.FrameRate = 10;
+open(writerObj);
+for n = 1 : 356
+  filename = sprintf('2D_Ta4_bas_N200_vep_%d.png', n);
+  thisimage = imread(filename);
+  writeVideo(writerObj, thisimage);
+end
+
 close(writerObj);

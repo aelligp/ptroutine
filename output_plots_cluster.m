@@ -16,8 +16,8 @@ load ocean %ocean colormap
 % X         = -h/2:h:L+h/2;
 % Z         = -h/2:h:D+h/2;
 
-% X         = -h/2:h:L+h/2;
-% Z         = -h/2:h:D+h/2;
+X         = -h/2:h:L+h/2;
+Z         = -h/2:h:D+h/2;
 Nx = length(X);
 Nz = length(Z);
 

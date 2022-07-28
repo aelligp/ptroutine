@@ -6,15 +6,15 @@
 % parameter sets
 
 %define environment and load files
-runID   = '2D_Ta8_interm_N200';
+runID   = '1D_Ta4_bas';
 % outdir  = '../Cluster/200resolution/intermediate/Ta8/out'
 outdir  = '../Cluster/out/';
 path    = strcat(outdir,runID);
-
+for i = 65
 addpath(path);
 
 parfile =  [path ,'/', runID, '_par.mat'];
-contfile=  [path ,'/', runID, '_127.mat']; %set to desired .mat file number
+contfile=  [path ,'/', runID, '_' num2str(i) '.mat']; %set to desired .mat file number
 if exist(parfile,'file'); load(parfile); end
 if exist(contfile,'file'); load(contfile,'U','W','P','Pt','f','x','m', ...
         'phi','chi','mu','H','C','V','T','c','v','cm','cx','vm','vf', ...
@@ -39,41 +39,41 @@ rhox = rhox0 .* (1 - aTx.*(T-perT-273.15) - gCx.*(cx-(perCx+perCm)/2));
 
 %% Layer calculations
 % Calculate temperature differences of layers
-Ttop = mean(T(ZZ>0.5 & ZZ<5));
-Tbot = mean(T(ZZ>5 & ZZ<8.5));
-Tcp  = mean(T(ZZ>8.5 & ZZ<10)); % Cumulate pile
+Ttop = mean(T(ZZ>0.5 & ZZ<4));
+Tbot = mean(T(ZZ>4 & ZZ<8));
+Tcp  = mean(T(ZZ>8 & ZZ<10)); % Cumulate pile
 
 % Calculate the composition difference
 % volume fraction
-cmtop = mean(cm(ZZ>0.5 & ZZ<5));
-cmbot = mean(cm(ZZ>5 & ZZ<9));
-cxtop = mean(cx(ZZ>0.5 & ZZ<5));
-cxbot = mean(cx(ZZ>5 & ZZ<9));
+cmtop = mean(cm(ZZ>0.5 & ZZ<4));
+cmbot = mean(cm(ZZ>4 & ZZ<8));
+cxtop = mean(cx(ZZ>0.5 & ZZ<4));
+cxbot = mean(cx(ZZ>4 & ZZ<8));
 
 %Calculate melt fraction top and bot layer
-mtop = mean(m(ZZ>0.5 & ZZ<5));
-mbot = mean(m(ZZ>5 & ZZ<9));
+mtop = mean(m(ZZ>0.5 & ZZ<4));
+mbot = mean(m(ZZ>4 & ZZ<8));
 
 %Calculate crystallinitiy difference
-xtop = mean(x(ZZ>0.5 & ZZ<5));
-xbot = mean(x(ZZ>5 & ZZ<9));
+xtop = mean(x(ZZ>0.5 & ZZ<4));
+xbot = mean(x(ZZ>4 & ZZ<8));
 xcp  = mean(x(ZZ>8.5 & ZZ<10)); %CP = Cumulate pile
 
 % xtal and melt densities of layers
-rhoxbot = mean(rhox(ZZ>5 & ZZ<9)); 
-rhoxtop = mean(rhox(ZZ>0.5 & ZZ<5));
-rhombot = mean(rhom(ZZ>5 & ZZ<9)); 
-rhomtop = mean(rhom(ZZ>0.5 & ZZ<5));
+rhoxbot = mean(rhox(ZZ>4 & ZZ<8)); 
+rhoxtop = mean(rhox(ZZ>0.5 & ZZ<4));
+rhombot = mean(rhom(ZZ>4 & ZZ<8)); 
+rhomtop = mean(rhom(ZZ>0.5 & ZZ<4));
 
 % volume fractions of layers 
-mubot = mean(mu(ZZ>5 & ZZ<9)); 
-mutop = mean(mu(ZZ>0.5 & ZZ<5));
-chibot = mean(chi(ZZ>5 & ZZ<9)); 
-chitop = mean(chi(ZZ>0.5 & ZZ<5));
+mubot = mean(mu(ZZ>4 & ZZ<8)); 
+mutop = mean(mu(ZZ>0.5 & ZZ<4));
+chibot = mean(chi(ZZ>4 & ZZ<8)); 
+chitop = mean(chi(ZZ>0.5 & ZZ<4));
 
 % Calculated mixture density of model layers
-rhotop = mean (rho(ZZ>0.5 & ZZ<5));
-rhobot = mean (rho(ZZ>5 & ZZ<9));
+rhotop = mean (rho(ZZ>0.5 & ZZ<4));
+rhobot = mean (rho(ZZ>4 & ZZ<8));
 
 %% Density difference analyses
 
@@ -94,11 +94,26 @@ drhobar = chibot.*(-rhox0.*aTx.*(Tbot-Ttop))+(mubot.*(-rhom0.*aTm.*(Tbot-Ttop)))
 rhobar = rhobot -rhotop % model mixture density
 
 
-if sumrho <0 sprintf('unstable')
-else sprintf('stable')
-end
+% if drhobar <0 sprintf('unstable')
+% else sprintf('stable')
+% end
 
 
+% % Initiate figure
+% % prepare for plotting
+% TX = {'Interpreter','Latex'}; FS = {'FontSize',12};
+% TL = {'TickLabelInterpreter','Latex'}; TS = {'FontSize',10};
+% UN = {'Units','Centimeters'};
+% LW = {'LineWidth',1};
+% 
+% LS = {'LineStyle','-','--','-.',':'};
+% %CL = {'Color',[0.0 0.0 0.0],[0.80 0.15 0.10],[0.10 0.15 0.65],[0.45 0.60 0.95]};
+% 
+% fh(1) = figure(1); 
+% plot(time/hr, drhobar,'-o',LW{:},'DisplayName',txt); axis xy tight; box on; hold on
+% title('stable isotope assimilation',TX{:},FS{:}); xlabel('time [hr]',TX{:},FS{:}); ylabel('Stable isotope [$\%$]',TX{:},FS{:}); set(gca,TL{:},TS{:});
+
+ end
 
 % xtal = (rhoxtop -rhomtop).*(chibot-chitop)
 % 
