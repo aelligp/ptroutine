@@ -1,15 +1,15 @@
 
-function [outdir,RunID,path,parfile,contfile] = Plot_1()
+function [outdir,runID,path,parfile,contfile] = Plot_1(runID)
 
-    outdir      = '../out/';  
-    RunID       = '1D_anh_bas_TT4_ta8_050_wall_4H2O';
+    outdir      = '../Cluster/out/';  
+    %runID       = '1D_Ta4_bas';
     
-    path        = strcat(outdir,RunID);
+    path        = strcat(outdir,runID);
     addpath(path);
-    addpath('../src/');
+    addpath('./src/');
 
     %Files we need to plot 
-    parfile = [path ,'/', RunID, '_par.mat']; % parameter file
-    contfile   = [path, '/', RunID, '_cont.mat']; %change to continuum matfile
+    parfile = [path ,'/', runID, '_par.mat']; % parameter file
+    contfile   = [path, '/', runID, '_0.mat']; %change to continuum matfile
 
 end
