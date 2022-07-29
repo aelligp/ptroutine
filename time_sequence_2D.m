@@ -8,42 +8,47 @@
 close all; clear all; clc;
 
 outdir      = '../Cluster/out/';
-runID       = '2D_Ta4_bas_N200';
-
+runID       = '2D_Ta8_rhy_N200';
+name        = '2D_plots';
 for i = 1:5
     switch i
-        case  1
+        case 1
+            path        = strcat(outdir,runID);
+            parfile = [path ,'/', runID, '_par.mat']; % parameter file
+            contfile   = [path, '/', runID, '_1.mat']; %change to continuum matfile
+            txt = 't = 1';
+        case  2
             %Files we need to plot
             %             outdir      = '../Cluster/out/';
             %             runID       = '2D_Ta4_bas';
             path        = strcat(outdir,runID);
             parfile = [path ,'/', runID, '_par.mat']; % parameter file
-            contfile   = [path, '/', runID, '_100.mat']; %change to continuum matfile
+            contfile   = [path, '/', runID, '_69.mat']; %change to continuum matfile
             n = 1;
             txt = 't = 100';
-        case  2
-            outdir      = '../Cluster/out/';
-            path        = strcat(outdir,runID);
-            parfile = [path ,'/', runID, '_par.mat']; % parameter file
-            contfile   = [path, '/', runID, '_200.mat']; %change to continuum matfile
-            txt = 't = 200';
         case  3
             outdir      = '../Cluster/out/';
             path        = strcat(outdir,runID);
             parfile = [path ,'/', runID, '_par.mat']; % parameter file
-            contfile   = [path, '/', runID, '_300.mat']; %change to continuum matfile
-            txt = 't = 300';
+            contfile   = [path, '/', runID, '_138.mat']; %change to continuum matfile
+            txt = 't = 200';
         case  4
             outdir      = '../Cluster/out/';
             path        = strcat(outdir,runID);
             parfile = [path ,'/', runID, '_par.mat']; % parameter file
-            contfile   = [path, '/', runID, '_400.mat']; %change to continuum matfile                txt = 't = 12000';
-            txt = 't = 400';
+            contfile   = [path, '/', runID, '_207.mat']; %change to continuum matfile
+            txt = 't = ';
         case  5
             outdir      = '../Cluster/out/';
             path        = strcat(outdir,runID);
             parfile = [path ,'/', runID, '_par.mat']; % parameter file
-            contfile   = [path, '/', runID, '_420.mat']; %change to continuum matfile                txt = 't = 16000';
+            contfile   = [path, '/', runID, '_277.mat']; %change to continuum matfile                txt = 't = 12000';
+            txt = 't = 360';
+        case  6
+            outdir      = '../Cluster/out/';
+            path        = strcat(outdir,runID);
+            parfile = [path ,'/', runID, '_par.mat']; % parameter file
+            contfile   = [path, '/', runID, '_450.mat']; %change to continuum matfile                txt = 't = 16000';
             txt = 't = 500';
     end
 
@@ -65,7 +70,7 @@ for i = 1:5
         load(contfile,'U','W','P','Pt','f','x','m','phi','chi','mu','H','C','V','T','c','v','cm','cx','vm','vf','IT','CT','SI','RIP','RID','it','ct','si','rip','rid','dHdt','dCdt','dVdt','dITdt','dCTdt','dSIdt','dfdt','dxdt','Gf','Gx','rho','eta','exx','ezz','exz','txx','tzz','txz','eII','tII','dt','time','step','hist','VolSrc','wf','wx');
     end
 
-    addpath('../src/')
+    addpath('src/')
     load ocean %ocean colormap
 
     % define Nx and Nz for output file to recognize if 0D, 1D
@@ -174,96 +179,131 @@ for i = 1:5
 
         % initialize figures and axes
         fh1 = figure(1); colormap(ocean);
-        fh = axb + 1*axh + 0*avs + axt;
-        fw = axl + 5.5*axw + 2*ahs + axr;
+        fh = axb + 2*axh + 1*avs + axt;
+        fw = axl + 3*axw + 2*ahs + axr;
         set(fh1,UN{:},'Position',[3 3 fw fh]);
         set(fh1,'PaperUnits','Centimeters','PaperPosition',[0 0 fw fh],'PaperSize',[fw fh]);
         set(fh1,'Color','w','InvertHardcopy','off');
         set(fh1,'Resize','on');
-        ax(1) = axes(UN{:},'position',[axl+(i-1)*axw+(i-1)*ahs axb+0*axh+0*avs axw axh]);
+        if i <= 3
+        ax(11) = axes(UN{:},'position',[axl+(i-1)*axw+(i-1)*ahs axb+1*axh+1*avs axw axh]);
+        else
+        ax(12) = axes(UN{:},'position',[axl+(i-4)*axw+(i-4)*ahs axb+0*axh+0*avs axw axh]);
+        end
 
         fh2 = figure(2); colormap(ocean);
-        fh = axb + 1*axh + 0*avs + axt;
-        fw = axl + 5.5*axw + 2*ahs + axr;
+        fh = axb + 2*axh + 1*avs + axt;
+        fw = axl + 3*axw + 2*ahs + axr;
         set(fh2,UN{:},'Position',[3 3 fw fh]);
         set(fh2,'PaperUnits','Centimeters','PaperPosition',[0 0 fw fh],'PaperSize',[fw fh]);
         set(fh2,'Color','w','InvertHardcopy','off');
         set(fh2,'Resize','on');
-        ax(2) = axes(UN{:},'position',[axl+(i-1)*axw+(i-1)*ahs axb+0*axh+0*avs axw axh]);
+        if i <= 3
+        ax(21) = axes(UN{:},'position',[axl+(i-1)*axw+(i-1)*ahs axb+1*axh+1*avs axw axh]);
+        else
+        ax(22) = axes(UN{:},'position',[axl+(i-4)*axw+(i-4)*ahs axb+0*axh+0*avs axw axh]);
+        end
 
         fh3 = figure(3);  colormap(ocean);
-        fh = axb + 1*axh + 0*avs + axt;
-        fw = axl + 5.5*axw + 2*ahs + axr;
+        fh = axb + 2*axh + 1*avs + axt;
+        fw = axl + 3*axw + 2*ahs + axr;
         set(fh3,UN{:},'Position',[3 3 fw fh]);
         set(fh3,'PaperUnits','Centimeters','PaperPosition',[0 0 fw fh],'PaperSize',[fw fh]);
         set(fh3,'Color','w','InvertHardcopy','off');
         set(fh3,'Resize','off');
-        ax(3) = axes(UN{:},'position',[axl+(i-1)*axw+(i-1)*ahs axb+0*axh+0*avs axw axh]);
-
+        if i <= 3
+        ax(31) = axes(UN{:},'position',[axl+(i-1)*axw+(i-1)*ahs axb+1*axh+1*avs axw axh]);
+        else
+        ax(32) = axes(UN{:},'position',[axl+(i-4)*axw+(i-4)*ahs axb+0*axh+0*avs axw axh]);
+        end
 
         fh4 = figure(4);  colormap(ocean);
-        fh = axb + 1*axh + 0*avs + axt;
-        fw = axl + 5*axw + 2*ahs + axr;
+        fh = axb + 2*axh + 1*avs + axt;
+        fw = axl + 3*axw + 2*ahs + axr;
         set(fh4,UN{:},'Position',[3 3 fw fh]);
         set(fh4,'PaperUnits','Centimeters','PaperPosition',[0 0 fw fh],'PaperSize',[fw fh]);
         set(fh4,'Color','w','InvertHardcopy','off');
         set(fh4,'Resize','on');
-        ax(4) = axes(UN{:},'position',[axl+(i-1)*axw+(i-1)*ahs axb+0*axh+0*avs axw axh]);
-
-        fh5 = figure(5);  colormap(ocean);
-        fh = axb + 1*axh + 0*avs + axt;
-        fw = axl + 5*axw + 2*ahs + axr;
-        set(fh5,UN{:},'Position',[3 3 fw fh]);
-        set(fh5,'PaperUnits','Centimeters','PaperPosition',[0 0 fw fh],'PaperSize',[fw fh]);
-        set(fh5,'Color','w','InvertHardcopy','off');
-        set(fh5,'Resize','on');
-        ax(5) = axes(UN{:},'position',[axl+(i-1)*axw+(i-1)*ahs axb+0*axh+0*avs axw axh]);
-
+        if i <= 3
+        ax(41) = axes(UN{:},'position',[axl+(i-1)*axw+(i-1)*ahs axb+1*axh+1*avs axw axh]);
+        else
+        ax(42) = axes(UN{:},'position',[axl+(i-4)*axw+(i-4)*ahs axb+0*axh+0*avs axw axh]);
+        end
+% 
+%         fh5 = figure(5);  colormap(ocean);
+%         fh = axb + 1*axh + 0*avs + axt;
+%         fw = axl + 5*axw + 2*ahs + axr;
+%         set(fh5,UN{:},'Position',[3 3 fw fh]);
+%         set(fh5,'PaperUnits','Centimeters','PaperPosition',[0 0 fw fh],'PaperSize',[fw fh]);
+%         set(fh5,'Color','w','InvertHardcopy','off');
+%         set(fh5,'Resize','on');
+%         if i <= 3
+%         ax(51) = axes(UN{:},'position',[axl+(i-1)*axw+(i-1)*ahs axb+1*axh+1*avs axw axh]);
+%         else
+%         ax(52) = axes(UN{:},'position',[axl+(i-4)*axw+(i-4)*ahs axb+0*axh+0*avs axw axh]);
+%         end
 
         % plot temperature in Fig. 1
         figure(1);
-        
-        axes(ax(1));
         imagesc(X(2:end-1),Z(2:end-1),T(2:end-1,2:end-1)-273.15); axis ij equal tight; box on;   cb = colorbar;
-        set(cb,TL{:},TS{:});set(gca,TL{:},TS{:}); title(['t = ',num2str(time/hr,3),' [hr]'],TX{:},FS{:}); xlabel('Width [m]',TX{:},FS{:});  hold on;
+        set(cb,TL{:},TS{:});set(gca,TL{:},TS{:}); title(['t = ',num2str(time/hr,3),' [hr]'],TX{:},FS{:}); hold on;
         sgtitle(['$T [^\circ$C]'],TX{:},FS{:},'Color','k');
         if i == 1
             ylabel('Depth [m]',TX{:},FS{:});
         end
-        if i == 5
-         
-           
+        if i == 4
+            ylabel('Depth [m]',TX{:},FS{:});
         end
-        hold on;
+        if i == 5
+            xlabel('Width [m]',TX{:},FS{:});
+        end
+%         hold on;
        % plot  and composition in Fig. 2
-        figure(2);
-            sgtitle(['$\bar{c}/(1-f)$ [wt\% SiO$_2$]'],TX{:},FS{:},'Color','k');
-        axes(ax(2));
+       figure(2);
+       sgtitle(['$\bar{c}/(1-f)$ [wt\% SiO$_2$]'],TX{:},FS{:},'Color','k');
+
         imagesc(X(2:end-1),Z(2:end-1),c(2:end-1,2:end-1)./(1-f(2:end-1,2:end-1)).*100); axis ij equal tight; box on;  cb = colorbar;
-        set(cb,TL{:},TS{:});set(gca,TL{:},TS{:}); title(['t = ',num2str(time/hr,3),' [hr]'],TX{:},FS{:}); xlabel('Width [m]',TX{:},FS{:}); hold on;
+        set(cb,TL{:},TS{:});set(gca,TL{:},TS{:}); title(['t = ',num2str(time/hr,3),' [hr]'],TX{:},FS{:}); hold on;
         if i == 1
             ylabel('Depth [m]',TX{:},FS{:});
         end
-
+        if i == 4
+            ylabel('Depth [m]',TX{:},FS{:});
+        end
+        if i == 5
+            xlabel('Width [m]',TX{:},FS{:});
+        end
+       
 
         figure(3);
             sgtitle(['$\chi$ [vol\%]'],TX{:},FS{:},'Color','k');
-        axes(ax(3));
         imagesc(X(2:end-1),Z(2:end-1),chi(2:end-1,2:end-1).*100.*(chi(2:end-1,2:end-1)>1e-9) ); axis ij equal tight; box on;  cb = colorbar;
-       set(cb,TL{:},TS{:});set(gca,TL{:},TS{:}); title(['t = ',num2str(time/hr,3),' [hr]'],TX{:},FS{:}); xlabel('Width [m]',TX{:},FS{:}); hold on;
-       if i == 1
-           ylabel('Depth [m]',TX{:},FS{:});
-       end
+       set(cb,TL{:},TS{:});set(gca,TL{:},TS{:}); title(['t = ',num2str(time/hr,3),' [hr]'],TX{:},FS{:}); hold on;
+        if i == 1
+            ylabel('Depth [m]',TX{:},FS{:});
+        end
+        if i == 4
+            ylabel('Depth [m]',TX{:},FS{:});
+        end
+        if i == 5
+            xlabel('Width [m]',TX{:},FS{:});
+        end
 
-
-          figure(4);
+        
+        figure(4);
             sgtitle(['stable isotope'],TX{:},FS{:},'Color','k');
-        axes(ax());
         imagesc(X(2:end-1),Z(2:end-1),si(2:end-1,2:end-1)); axis ij equal tight; box on; cb = colorbar;
-       set(cb,TL{:},TS{:});set(gca,TL{:},TS{:}); title(['t = ',num2str(time/hr,3),' [hr]'],TX{:},FS{:}); xlabel('Width [m]',TX{:},FS{:}); hold on;
-       if i == 1
-           ylabel('Depth [m]',TX{:},FS{:});
-       end 
+       set(cb,TL{:},TS{:});set(gca,TL{:},TS{:}); title(['t = ',num2str(time/hr,3),' [hr]'],TX{:},FS{:}); hold on;
+        if i == 1
+            ylabel('Depth [m]',TX{:},FS{:});
+        end
+        if i == 4
+            ylabel('Depth [m]',TX{:},FS{:});
+        end
+        if i == 5
+            xlabel('Width [m]',TX{:},FS{:});
+        end
+  
 %         axes(ax(2));
 %         imagesc(X(2:end-1),Z(2:end-1),c(2:end-1,2:end-1)./(1-f(2:end-1,2:end-1)).*100); axis ij equal tight; box on; cb = colorbar;
 %         set(cb,TL{:},TS{:}); set(gca,TL{:},TS{:}); title(['$\bar{c}/(1-f)$ [wt\% SiO$_2$]'],TX{:},FS{:}); set(gca,'YTickLabel',[]); xlabel('Width [m]',TX{:},FS{:});
@@ -338,39 +378,39 @@ end
 
 
 
-% %save outputs
-% name = 'Ta8';
-% opdir = 'out/';
-% if ~isfolder([opdir,'/',name])
-%     mkdir([opdir,'/',name]);
-% end
+%save outputs
+
+opdir = 'out/';
+if ~isfolder([opdir,'/',name])
+    mkdir([runID,'/',name]);
+end
 %      if Nx <= 10 && Nz <= 10  % print 0D plots
 %         name_save = [outdir,'/',runID,'/',name,'_tch',num2str(i)];
 %         print(fh1,name_save,'-dpng','-r300','-opengl');
 %         name_save = [outdir,'/',runID,'/',name,'_aux',num2str(i)];
 %         print(fh2,name_save,'-dpng','-r300','-opengl');
-%     elseif Nx <= 10  % create 1D plots
-% name_save = [opdir,'/',name,'/',name,'_compo'];
-% print(fh1,name_save,'-dpng','-r600','-opengl');
-% name_save = [opdir,'/',name,'/',name,'_melt'];
-% print(fh2,name_save,'-dpng','-r600','-opengl');
-% name_save = [opdir,'/',name,'/',name,'_SI'];
-% print(fh3,name_save,'-dpng','-r600','-opengl');
-%         name_save = [opdir,'/',name,'/',name,'_elements'];
-%         print(fh4,name_save,'-depsc','-r600','-opengl');
-%     else
-%         name_save = [outdir,'/',runID,'/',name,'_vep_',num2str(i)];
-%         print(fh1,name_save,'-dpng','-r600','-opengl');
-%         name_save = [outdir,'/',runID,'/',name,'_tch_',num2str(i)];
-%         print(fh2,name_save,'-dpng','-r600','-opengl');
-%         name_save = [outdir,'/',runID,'/',name,'_phs_',num2str(i)];
-%         print(fh3,name_save,'-dpng','-r600','-opengl');
-%         name_save = [outdir,'/',runID,'/',name,'_sgr_',num2str(i)];
-%         print(fh4,name_save,'-dpng','-r600','-opengl');
-%         name_save = [outdir,'/',runID,'/',name,'_gch',num2str(i)];
-%         print(fh5,name_save,'-dpng','-r600','-opengl');
-% %         name_save = [runID,'_eql',num2str(i)];
-% %         print(fh7,name,'-dpng','-r300','-opengl');
-%     end
+    if Nx <= 10  % create 1D plots
+        name_save = [opdir,'/',name,'/',name,'_compo'];
+        print(fh1,name_save,'-dpng','-r600','-opengl');
+        name_save = [opdir,'/',name,'/',name,'_melt'];
+        print(fh2,name_save,'-dpng','-r600','-opengl');
+        name_save = [opdir,'/',name,'/',name,'_SI'];
+        print(fh3,name_save,'-dpng','-r600','-opengl');
+        %         name_save = [opdir,'/',name,'/',name,'_elements'];
+        %         print(fh4,name_save,'-depsc','-r600','-opengl');
+    else
+        name_save = [opdir,'/',name,'/',runID,'_temp'];
+        print(fh1,name_save,'-dpng','-r600','-opengl');
+        name_save = [opdir,'/',name,'/',runID,'_compo'];
+        print(fh2,name_save,'-dpng','-r600','-opengl');
+        name_save = [opdir,'/',name,'/',runID,'_xtal'];
+        print(fh3,name_save,'-dpng','-r600','-opengl');
+        name_save = [opdir,'/',name,'/',runID,'_SI'];
+        print(fh4,name_save,'-dpng','-r600','-opengl');
+        %         name_save = [outdir,'/',runID,'/',name,'_gch',num2str(i)];
+        %         print(fh5,name_save,'-dpng','-r600','-opengl');
+        %         name_save = [runID,'_eql',num2str(i)];
+        %         print(fh7,name,'-dpng','-r300','-opengl');
+    end
 
 
