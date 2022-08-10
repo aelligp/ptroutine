@@ -6,6 +6,7 @@
 % parameter sets
 
 clc; clear all; close all;
+
 for j = 1:3
     if j == 1
         %define environment and load files
@@ -23,6 +24,8 @@ for j = 1:3
     for i = 80
         addpath(path);
 
+
+
         parfile =  [path ,'/', runID, '_par.mat'];
         contfile=  [path ,'/', runID, '_' num2str(i) '.mat']; %set to desired .mat file number
         if exist(parfile,'file'); load(parfile); end
@@ -33,7 +36,7 @@ for j = 1:3
                 'rho','eta','exx','ezz','exz','txx','tzz','txz','eII','tII','dt', ...
                 'time','step','hist','VolSrc','wf','wx');
         end
-
+%%
         % calculate necessary variables for analyses
         X         = -h/2:h:L+h/2;
         Z         = -h/2:h:D+h/2;
@@ -49,14 +52,7 @@ for j = 1:3
 
                 %% Density difference analyses
 
-%         drhoT = (chibot.*(-rhox0.*aTx.*(Tbot-Ttop)))+(mubot.*(-rhom0.*aTm.*(Tbot-Ttop)))
-% 
-% 
-%         drhoC = (chibot.*(-rhox0.*gCx.*(cxbot-cxtop)))+(mubot.*(-rhom0.*gCm.*(cmbot-cmtop))) %compositional difference
-% 
-% 
-%         drhoX = (rhoxtop -rhomtop).*(chibot-chitop)
-% 
+     
 %         % mixture density difference rhobar = effect on temp + compo + xtals
 %         drhobar = chibot.*(-rhox0.*aTx.*(Tbot-Ttop))+(mubot.*(-rhom0.*aTm.*(Tbot-Ttop))) + ...
 %             (chibot.*(-rhox0.*gCx.*(cxbot-cxtop)))+(mubot.*(-rhom0.*gCm.*(cmbot-cmtop))) + ...
@@ -65,14 +61,30 @@ for j = 1:3
 % 
 %         rhobar = rhobot -rhotop % model mixture density
 
+
+%Initial temp, compo, x
+
+chi0 = 0.1308;
+
 % difference in temp and compo per layer    
-        dTemp = mean(mean(T-perT));
-        dcompo = mean(mean((cm-(perCx+perCm)/2)));
-        
-        
+        dTemp = mean(mean(T))-T0;
+        dcompo = mean(mean((cm)))-c0;
+        dchi = mean(mean(chi))-chi0;
+        drhoX = rhox- rhox0;
+        %dX = 
+        drhoT = (chi.*(-rhox0.*aTx.*(T)))+(mu.*(-rhom0.*aTm.*(T)))
+
+
+        drhoC = (chi.*(-rhox0.*gCx.*(cx)))+(mu.*(-rhom0.*gCm.*(cm))) %compositional difference
+
+
+        %  drhoX = (rhox -rhom).*(chi)
+
+        drho = drhoT+drhoC+drhoX;
+
 
         % Xtal density
-        drhoX = rhox- rhox0;
+    
 
 
         % Crystall settling
@@ -81,13 +93,19 @@ for j = 1:3
 % thermal diffusivity
         kT = kTm./(mean(mean(rho)).*Cp)
 
+        %settling
+        %R_x = drhx
+
  %Rayleigh numbers
-        Ra_T = (aTm.*g0.*dTemptop.*D^3)/(kT.*mean(mean(eta./rho)))
-        Ra_c = (gCm.*g0.*dcompotop.*D^3)/(kT.*mean(mean(eta./rho)))
-        R_assml = (dw.*mean(mean((eta)))./()
-             
-        R_rhotop = Ra_ctop/Ra_top
-        R_rhobot = Ra_cbot/Ra_bot
+        Ra_T = (aTm.*g0.*dTemp.*D^3)/(kT.*mean(mean(eta./rho)))
+        Ra_c = (gCm.*g0.*dcompo.*D^3)/(kT.*mean(mean(eta./rho)))
+        Ra_x = (gCx.*g0.*dchi.*D^3)/(kT.*mean(mean(eta./rho)))
+      %  R_assml = (dw.*mean(mean((eta)))./(tau_a.*g0^2))
+        
+        R_rhotc = Ra_c/Ra_T
+        R_rhotx = Ra_x/Ra_T
+%         R_rhosum = R_rhoc + R_rhox;
+        
 % Prandtl number
 %         Pr = mean(mean(eta./rho))/aTm
 
@@ -162,6 +180,19 @@ for j = 1:3
     title('Prandtl vs Rayleigh Number of T',TX{:},FS{:}); xlabel('Rayleigh number ',TX{:},FS{:}); ylabel('$\tau_a$ [hr]',TX{:},FS{:}); 
     legend 
 
+
+    fh(7) = figure(7);
+    scatter(R_rhotc,tau_a./hr, 'o', LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName','T top layer'); box on; hold on;set(gca,'xscale','log',TL{:},TS{:});
+    %scatter(Pr,Ra_bot, 's', LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName','T bottom layer'); hold on;set(gca,'yscale','log',TL{:},TS{:});
+    %xlim([7.5e7, 12e7])
+    title('Prandtl vs Rayleigh Number of T',TX{:},FS{:}); xlabel('Rayleigh number ',TX{:},FS{:}); ylabel('$\tau_a$ [hr]',TX{:},FS{:}); 
+    legend 
+
+    fh(8) = figure(8);
+    scatter(R_rhotc,tau_a./hr,'o', LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName','T top layer'); box on; hold on;set(gca,'xscale','log',TL{:},TS{:});
+    
+    title('Prandtl vs Rayleigh Number of T',TX{:},FS{:}); xlabel('Rayleigh number ',TX{:},FS{:}); ylabel('$\tau_a$ [hr]',TX{:},FS{:}); 
+    legend 
 %     fh(7) = figure(7);
 % 
 %     %  xlim([2, 10])
