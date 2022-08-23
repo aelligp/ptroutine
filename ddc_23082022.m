@@ -93,12 +93,13 @@ for j = 1:6
             end
             %dT, dC, dX
             dT = T0 - Twall;
-            dC = c0 - cwall;
+            dC = cphs1 - c0;
             dX = 0.1;
 
             % drho, eta, K_t
-            drho = (rhox0+rhom0)./2;
-            eta  = (etam0 + etax0)./2;
+            rho0 = rhom0;
+            drho = rhox0-rhom0;
+            eta  = etam0;
             kT = kTm./((drho).*Cp);
 
             % Cx
@@ -109,17 +110,17 @@ for j = 1:6
             U_settle = drho.*g0.*Cx;
             U_assml = dw./tau_a;
 
-            U_conv_T = (aTm.*drho.*g0.*dT.*D^2)./(eta./drho);
-            U_conv_C = (gCm.*drho.*g0.*dC.*D^2)./(eta./drho);
-            U_conv_X = (gCx.*drho.*g0.*dX.*D^2)./(eta./drho);
+            U_conv_T = (aTm.*rho0.*g0.*dT.*D^2)./eta;
+            U_conv_C = (gCm.*rho0.*g0.*dC.*D^2)./eta;
+            U_conv_X = (drho.*dX.*D^2)./eta;
 
             sum_U_conv = U_conv_T + U_conv_C + U_conv_X;
 
 
             %Rayleigh numbers
-            Ra_T = (aTm.*g0.*dT.*D^3)/(kT.*(eta./drho));
-            Ra_c = (gCm.*g0.*dC.*D^3)/(kT.*(eta./drho));
-            Ra_x = (gCx.*g0.*dX.*D^3)/(kT.*(eta./drho));
+            Ra_T = (aTm.*g0.*dT.*D^3)/(kT.*eta);
+            Ra_c = (gCm.*g0.*dC.*D^3)/(kT.*eta);
+            Ra_x = (gCx.*g0.*dX.*D^3)/(kT.*eta);
 
             %Buoyancy ratios
             R_rho_cT  = abs(U_conv_C./sum_U_conv);
@@ -153,14 +154,25 @@ for j = 1:6
             OL = {'o','s', 'd'};
 
 
-
+            if ii == 1
             fh(1) = figure(1);
-            scatter(R_rho_cT,R_assml, sh, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,'xscale','log',TL{:},TS{:});
+            scatter(R_rho_cT,R_assml, sh, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,TL{:},TS{:});
+            title('Buoyancy ratio of $\bar{c}$ and T',TX{:},FS{:}); xlabel('$R_{\rho,c}$',TX{:},FS{:}); ylabel('$R_{assml}$',TX{:},FS{:});
             legend
             fh(2) = figure(2);
-            scatter(R_rho_xT,R_assml, sh, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,'xscale','log',TL{:},TS{:});
+            scatter(R_rho_xT,R_assml, sh, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,TL{:},TS{:});
+            title('Buoyancy ratio of \chi and T',TX{:},FS{:}); xlabel('$R_{\rho,x}$',TX{:},FS{:}); ylabel('$R_{settle}',TX{:},FS{:});
             fh(3) = figure(3);
-            scatter(R_rho_sum,R_assml, sh, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,'xscale','log',TL{:},TS{:});
+            scatter(R_rho_sum,R_assml, sh, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,TL{:},TS{:});
+            title('Assimilation',TX{:},FS{:}); xlabel('$\Sigma R_{\rho}$ ',TX{:},FS{:}); ylabel('$R_{assml}$',TX{:},FS{:});
+            fh(7) = figure(7);
+            scatter(R_rho_cT,tau_a./hr, sh, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,TL{:},TS{:});
+            title('Buoyancy ratio of $\bar{c}$ and T',TX{:},FS{:}); xlabel('$R_{\rho,c}$',TX{:},FS{:}); ylabel('$\tau_a$ [hr]',TX{:},FS{:});
+            fh(8) = figure(8);
+            scatter(R_rho_xT,tau_a./hr, sh, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,TL{:},TS{:});
+            title('Buoyancy ratio of $\chi$ and T',TX{:},FS{:}); xlabel('$R_{\rho,x}$',TX{:},FS{:}); ylabel('$\tau_a$ [hr]',TX{:},FS{:});
+
+            end
             %scatter(Pr,Ra_bot, 's', LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName','T bottom layer'); hold on;set(gca,'yscale','log',TL{:},TS{:});
 %             ylim([2, 10])
 %             title('Buoyancy ratio of $\bar{c}$ and T',TX{:},FS{:}); xlabel('$R_{\rho,c}$',TX{:},FS{:}); ylabel('$\tau_a$ [hr]',TX{:},FS{:});
@@ -168,11 +180,15 @@ for j = 1:6
 
             fh(4) = figure(4);
             scatter(R_rho_cT,R_settle,OL{ii}, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,TL{:},TS{:});
-            fh(4) = figure(4);
-            scatter(R_rho_xT,R_settle, OL{ii}, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt);box on; hold on;set(gca,TL{:},TS{:});
             fh(5) = figure(5);
+            scatter(R_rho_xT,R_settle, OL{ii}, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt);box on; hold on;set(gca,TL{:},TS{:});
+            fh(6) = figure(6);
             scatter(R_rho_sum,R_settle, OL{ii}, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,TL{:},TS{:});
+          
+            
             %ylim([2, 10])
+
+
            % sgtitle('R_settle',TX{:},FS{:}); %xlabel('$R_{\rho,x}$',TX{:},FS{:}); ylabel('$\tau_a$ [hr]',TX{:},FS{:});
             %             legend
 
