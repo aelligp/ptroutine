@@ -98,24 +98,24 @@ for j = 1:6
 
             % drho, K_t, Cx
             drho = rhox0-rhom0;
-            kT = kTm./(rhom0.*Cp);
-            Cx = dx^2./etam0;
+            kT   = kTm./(rhom0.*Cp);
+            Cx   = dx^2./etam0;
             
             %density differences
-            drho_T = aTm.*dT.*rhom0;
-            drho_c = gCm.*dC.*rhom0;
-            drho_X =      dX.*drho;
+            drho_T   = aTm.*dT.*rhom0;
+            drho_c   = gCm.*dC.*rhom0;
+            drho_X   =      dX.*drho;
 
             sum_drho = drho_T + drho_c + drho_X;
             
             %specific velocities
-            U_diff = kT./D;
+            U_diff   = kT./D;
             U_settle = drho.*g0.*Cx;
-            U_assml = dw./tau_a;
+            U_assml  = dw./tau_a;
                         
 
-            U_conv_T = (aTm.*rho0.*g0.*dT.*D^2)./etam0;
-            U_conv_C = (gCm.*rho0.*g0.*dC.*D^2)./etam0;
+            U_conv_T = (aTm.*rhom0.*g0.*dT.*D^2)./etam0;
+            U_conv_C = (gCm.*rhom0.*g0.*dC.*D^2)./etam0;
             U_conv_X = (drho.*dX.*D^2)./etam0;
 
             sum_U_conv = U_conv_T + U_conv_C + U_conv_X;
@@ -134,9 +134,10 @@ for j = 1:6
 %             R_settle  = abs(U_settle./sum_U_conv); old 
 
             R_assml   = (dw.*etam0)./(sum_drho.*tau_a.*D^2);
-            R_settle  = (drho_x.*dx^2)./(sum_drho.*D^2);
+            R_settle  = (drho_X.*dx^2)./(sum_drho.*D^2);
 
-
+            R_rho_cT  = Ra_c./Ra_T;
+            R_rho_xT  = Ra_x./Ra_T;
 
 
             %             R_x = abs((drhox.*dx^2)./(drho.*D^2));
@@ -171,7 +172,7 @@ for j = 1:6
             title('Rayleigh number of $\bar{c}$ and assimilation speed',TX{:},FS{:}); xlabel('$Ra_T$',TX{:},FS{:}); ylabel('$R_{assml}$',TX{:},FS{:});
             fh(3) = figure(3);
             scatter(Ra_x,R_assml, sh, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,TL{:},TS{:});
-            title('Rayleigh number of $\chi and assimilation speed',TX{:},FS{:}); xlabel('$Ra_T$',TX{:},FS{:}); ylabel('$R_{assml}$',TX{:},FS{:});
+            title('Rayleigh number of $\chi$ and assimilation speed',TX{:},FS{:}); xlabel('$Ra_T$',TX{:},FS{:}); ylabel('$R_{assml}$',TX{:},FS{:});
             fh(4) = figure(4);
             scatter(Ra_T,R_settle, sh, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,TL{:},TS{:});
             title('Rayleigh number of T and settling speed',TX{:},FS{:}); xlabel('$Ra_T$',TX{:},FS{:}); ylabel('$R_{settle}$',TX{:},FS{:});
@@ -181,8 +182,24 @@ for j = 1:6
             title('Rayleigh number of $\bar{c}$ and settling speed',TX{:},FS{:}); xlabel('$Ra_\bar{c}$',TX{:},FS{:}); ylabel('$R_{settle}$',TX{:},FS{:});
             fh(6) = figure(6);
             scatter(Ra_x,R_settle, sh, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,TL{:},TS{:});
-            title('Rayleigh number of $\chi and settling speed',TX{:},FS{:}); xlabel('$Ra_\chi$',TX{:},FS{:}); ylabel('$R_{settle}$',TX{:},FS{:});
-%             
+            title('Rayleigh number of $\chi$ and settling speed',TX{:},FS{:}); xlabel('$Ra_\chi$',TX{:},FS{:}); ylabel('$R_{settle}$',TX{:},FS{:});
+            fh(7) = figure(7);
+            scatter(R_rho_cT,R_settle, sh, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,TL{:},TS{:});
+            title('Rayleigh number of $\chi$ and settling speed',TX{:},FS{:}); xlabel('$Ra_\chi$',TX{:},FS{:}); ylabel('$R_{settle}$',TX{:},FS{:});
+            
+            fh(8) = figure(8);
+            scatter(R_rho_xT,R_settle, sh, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,TL{:},TS{:});
+            title('Rayleigh number of $\chi$ and settling speed',TX{:},FS{:}); xlabel('$Ra_\chi$',TX{:},FS{:}); ylabel('$R_{settle}$',TX{:},FS{:});
+
+            fh(9) = figure(9);
+            scatter(R_rho_cT,R_assml, sh, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,TL{:},TS{:});
+            title('Rayleigh number of $\chi$ and settling speed',TX{:},FS{:}); xlabel('$Ra_\chi$',TX{:},FS{:}); ylabel('$R_{settle}$',TX{:},FS{:});
+            
+            fh(10) = figure(10);
+            scatter(R_rho_xT,R_assml, sh, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,TL{:},TS{:});
+            title('Rayleigh number of $\chi$ and settling speed',TX{:},FS{:}); xlabel('$Ra_\chi$',TX{:},FS{:}); ylabel('$R_{settle}$',TX{:},FS{:});
+
+
 %             fh(7) = figure(7);
 %             scatter(R_rho_cT,tau_a./hr, sh, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,TL{:},TS{:});
 %             title('Buoyancy ratio of $\bar{c}$ and T',TX{:},FS{:}); xlabel('$R_{\rho,c}$',TX{:},FS{:}); ylabel('$\tau_a$ [hr]',TX{:},FS{:});
@@ -196,13 +213,13 @@ for j = 1:6
 %             title('Buoyancy ratio of $\bar{c}$ and T',TX{:},FS{:}); xlabel('$R_{\rho,c}$',TX{:},FS{:}); ylabel('$\tau_a$ [hr]',TX{:},FS{:});
             %             legend
 
-            fh(4) = figure(4);
-            scatter(R_rho_cT,R_settle,OL{ii}, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,TL{:},TS{:});
-            fh(5) = figure(5);
-            scatter(R_rho_xT,R_settle, OL{ii}, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt);box on; hold on;set(gca,TL{:},TS{:});
-            fh(6) = figure(6);
-            scatter(R_rho_sum,R_settle, OL{ii}, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,TL{:},TS{:});
-          
+%             fh(4) = figure(4);
+%             scatter(R_rho_cT,R_settle,OL{ii}, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,TL{:},TS{:});
+%             fh(5) = figure(5);
+%             scatter(R_rho_xT,R_settle, OL{ii}, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt);box on; hold on;set(gca,TL{:},TS{:});
+%             fh(6) = figure(6);
+%             scatter(R_rho_sum,R_settle, OL{ii}, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,TL{:},TS{:});
+%           
             
             %ylim([2, 10])
 
