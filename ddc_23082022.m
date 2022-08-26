@@ -163,6 +163,7 @@ for j = 1:6
 
 
             if ii == 1
+            %Assimilation
             fh(1) = figure(1);
             scatter(Ra_T,R_assml, sh, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,TL{:},TS{:});
             title('Rayleigh number of T and assimilation speed',TX{:},FS{:}); xlabel('$Ra_T$',TX{:},FS{:}); ylabel('$R_{assml}$',TX{:},FS{:});
@@ -173,32 +174,38 @@ for j = 1:6
             fh(3) = figure(3);
             scatter(Ra_x,R_assml, sh, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,TL{:},TS{:});
             title('Rayleigh number of $\chi$ and assimilation speed',TX{:},FS{:}); xlabel('$Ra_T$',TX{:},FS{:}); ylabel('$R_{assml}$',TX{:},FS{:});
+            
+                %Buoyancy ratio
             fh(4) = figure(4);
-            scatter(Ra_T,R_settle, sh, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,TL{:},TS{:});
+            scatter(R_rho_cT,R_assml, sh, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,TL{:},TS{:});
+            title('Buoyancy ratio of $\bar{c}$ and assimilation speed',TX{:},FS{:}); xlabel('$Ra_\rho,c$',TX{:},FS{:}); ylabel('$R_{assml}$',TX{:},FS{:});
+            
+            fh(5) = figure(5);
+            scatter(R_rho_xT,R_assml, sh, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,TL{:},TS{:});
+            title('Buoyancy ratio of $\chi$ and assimilation speed',TX{:},FS{:}); xlabel('$R_\rho,x$',TX{:},FS{:}); ylabel('$R_{assml}$',TX{:},FS{:});
+
+            end
+
+            % Settling
+            fh(6) = figure(6);
+            scatter(Ra_T,R_settle, OL{ii}, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,TL{:},TS{:});
             title('Rayleigh number of T and settling speed',TX{:},FS{:}); xlabel('$Ra_T$',TX{:},FS{:}); ylabel('$R_{settle}$',TX{:},FS{:});
             legend
-            fh(5) = figure(5);
-            scatter(Ra_c,R_settle, sh, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,TL{:},TS{:});
-            title('Rayleigh number of $\bar{c}$ and settling speed',TX{:},FS{:}); xlabel('$Ra_\bar{c}$',TX{:},FS{:}); ylabel('$R_{settle}$',TX{:},FS{:});
-            fh(6) = figure(6);
-            scatter(Ra_x,R_settle, sh, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,TL{:},TS{:});
-            title('Rayleigh number of $\chi$ and settling speed',TX{:},FS{:}); xlabel('$Ra_\chi$',TX{:},FS{:}); ylabel('$R_{settle}$',TX{:},FS{:});
             fh(7) = figure(7);
-            scatter(R_rho_cT,R_settle, sh, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,TL{:},TS{:});
+            scatter(Ra_c,R_settle, OL{ii}, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,TL{:},TS{:});
+            title('Rayleigh number of $\bar{c}$ and settling speed',TX{:},FS{:}); xlabel('$Ra_\bar{c}$',TX{:},FS{:}); ylabel('$R_{settle}$',TX{:},FS{:});
+            fh(8) = figure(8);
+            scatter(Ra_x,R_settle, OL{ii}, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,TL{:},TS{:});
             title('Rayleigh number of $\chi$ and settling speed',TX{:},FS{:}); xlabel('$Ra_\chi$',TX{:},FS{:}); ylabel('$R_{settle}$',TX{:},FS{:});
             
-            fh(8) = figure(8);
-            scatter(R_rho_xT,R_settle, sh, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,TL{:},TS{:});
-            title('Rayleigh number of $\chi$ and settling speed',TX{:},FS{:}); xlabel('$Ra_\chi$',TX{:},FS{:}); ylabel('$R_{settle}$',TX{:},FS{:});
-
+            %Buoyancy ratios
             fh(9) = figure(9);
-            scatter(R_rho_cT,R_assml, sh, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,TL{:},TS{:});
-            title('Rayleigh number of $\chi$ and settling speed',TX{:},FS{:}); xlabel('$Ra_\chi$',TX{:},FS{:}); ylabel('$R_{settle}$',TX{:},FS{:});
+            scatter(R_rho_cT,R_settle, OL{ii}, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,TL{:},TS{:});
+            title('Buoyancy ratio of $\bar{c}$ and settling speed',TX{:},FS{:}); xlabel('$R_\rho,c$',TX{:},FS{:}); ylabel('$R_{settle}$',TX{:},FS{:});
             
             fh(10) = figure(10);
-            scatter(R_rho_xT,R_assml, sh, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,TL{:},TS{:});
-            title('Rayleigh number of $\chi$ and settling speed',TX{:},FS{:}); xlabel('$Ra_\chi$',TX{:},FS{:}); ylabel('$R_{settle}$',TX{:},FS{:});
-
+            scatter(R_rho_xT,R_settle, OL{ii}, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,TL{:},TS{:});
+            title('Buoyancy ratio of $\chi$ and settling speed',TX{:},FS{:}); xlabel('$Ra_\rho,x$',TX{:},FS{:}); ylabel('$R_{settle}$',TX{:},FS{:});
 
 %             fh(7) = figure(7);
 %             scatter(R_rho_cT,tau_a./hr, sh, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,TL{:},TS{:});
@@ -207,7 +214,7 @@ for j = 1:6
 %             scatter(R_rho_xT,tau_a./hr, sh, LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName',txt); box on; hold on;set(gca,TL{:},TS{:});
 %             title('Buoyancy ratio of $\chi$ and T',TX{:},FS{:}); xlabel('$R_{\rho,x}$',TX{:},FS{:}); ylabel('$\tau_a$ [hr]',TX{:},FS{:});
 
-            end
+            
             %scatter(Pr,Ra_bot, 's', LW{:},'MarkerEdgeColor',copper(j,:),'MarkerFaceColor', copper(j,:),'DisplayName','T bottom layer'); hold on;set(gca,'yscale','log',TL{:},TS{:});
 %             ylim([2, 10])
 %             title('Buoyancy ratio of $\bar{c}$ and T',TX{:},FS{:}); xlabel('$R_{\rho,c}$',TX{:},FS{:}); ylabel('$\tau_a$ [hr]',TX{:},FS{:});
