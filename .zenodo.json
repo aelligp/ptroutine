@@ -1,5 +1,19 @@
 {
-    "grants": [
+    "creators": [
+      {
+        "affiliations": [
+          {
+            "name": "Johannes Gutenberg University Mainz"
+          }
+        ],
+        "person_or_org": {
+          "family_name": "Pascal Aellig",
+          "name": "Pascal Aellig",
+          "type": "personal"
+        }
+      }
+    ],
+    "funding": [
       {
         "award": {
           "acronym": "MAGMA",
